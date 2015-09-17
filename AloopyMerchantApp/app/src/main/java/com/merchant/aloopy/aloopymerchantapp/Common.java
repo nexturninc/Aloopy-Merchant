@@ -42,6 +42,7 @@ public class Common {
         try {
             url = new URL(APIURL + apiMethod);
 
+            //GITHUB TEST
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json");
