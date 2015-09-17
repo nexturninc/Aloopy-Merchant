@@ -1,0 +1,7 @@
+<resources>
+    <string name="AloopyAPIURL">http://localhost:14375</string>
+    <string name="SHARE_PREF_UserId">UserId</string>
+    <string name="SHARE_PREF_UserName">Username</string>
+
+    <string name="app_name">Aloopy Merchant App</string>
+</resources>
