@@ -2,6 +2,7 @@
     <string name="AloopyAPIURL">http://130.211.177.252:9999</string>
     <string name="SHARE_PREF_UserId">UserId</string>
     <string name="SHARE_PREF_UserName">Username</string>
+    <string name="SHARE_PREF_MerchantId">MerchantId</string>
     <string name="EXTRA_LoginDisplay_Name">com.merchant.aloopy.aloopymerchantapp.LoginDisplay_Name</string>
     <string name="EXTRA_StampDetail_Id">com.merchant.aloopy.aloopymerchantapp.StoreStampId</string>
 

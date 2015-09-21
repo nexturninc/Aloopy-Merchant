@@ -65,6 +65,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        Common.getImageLoader(this);
+
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -288,6 +290,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             Boolean loginSuccess = false;
             String userId = "";
             String userDisplay = "";
+            String merchantId = "";
+
             JSONObject jsonResponse = null;
 
             try {
@@ -314,6 +318,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                         if(userInfo != null && userInfo.length() > 0
                                 && merchantInfo != null && merchantInfo.length() > 0) {
 
+                            merchantId = merchantInfo.getJSONObject(0).getString("id");
                             userId = userInfo.getJSONObject(0).getString("id");
                             userDisplay = userInfo.getJSONObject(0).getString("name")  +
                                     " (" +
@@ -326,6 +331,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                             SharedPreferences.Editor editor = mSettings.edit();
                             editor.putString(getString(R.string.SHARE_PREF_UserId), userId);
                             editor.putString(getString(R.string.SHARE_PREF_UserName), userDisplay);
+                            editor.putString(getString(R.string.SHARE_PREF_MerchantId), merchantId);
                             editor.commit();
 
 

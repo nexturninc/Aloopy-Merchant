@@ -77,14 +77,14 @@ public class StampSetAdapter extends ArrayAdapter<MerchantStampInfoContract> {
         MerchantStampInfoContract item = data.get(position);
         holder.StampSetId.setText(item.StoreStampSetId);
         holder.StampSetTitle.setText(item.StampTitle);
-        holder.StampSetTitle.setTextColor(Integer.parseInt(item.TextColor, 16) + 0xFF000000);
+        holder.StampSetTitle.setTextColor(Integer.parseInt(item.TextColor.replaceAll("#", ""), 16) + 0xFF000000);
 
         if (item.MerchantLogoH != null && item.MerchantLogoH != "")
             Common.getImageLoader(null).displayImage(item.MerchantLogoH, holder.StampMerchantLogo);
         if (item.QRCode != null && item.QRCode != "")
             Common.getImageLoader(null).displayImage(item.QRCode, holder.StampQRCode);
         if (item.BackgroundColor != null && item.BackgroundColor != "")
-            holder.StampBody.setBackgroundColor(Integer.parseInt(item.BackgroundColor, 16) + 0xFF000000);
+            holder.StampBody.setBackgroundColor(Integer.parseInt(item.BackgroundColor.replaceAll("#", ""), 16) + 0xFF000000);
 
         if (item.StampIcon != null && item.StampIcon != "") {
 

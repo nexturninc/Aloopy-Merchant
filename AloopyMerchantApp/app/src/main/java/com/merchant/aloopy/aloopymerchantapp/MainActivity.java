@@ -121,6 +121,7 @@ public class MainActivity extends ActionBarActivity {
             {
                 case 0:
                     StampList stampList = StampList.newInstance();
+
                     return stampList;
                 default:
                     return null;

@@ -27,6 +27,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.merchant.aloopy.aloopydatabase.AloopySQLHelper;
+import com.merchant.aloopy.aloopydatabase.MerchantInfoContract;
 import com.merchant.aloopy.aloopydatabase.MerchantStampInfoContract;
 
 import org.json.JSONArray;
@@ -40,6 +41,7 @@ import java.util.ArrayList;
 public class StampList extends Fragment {
 
     public String UserID;
+    public String MerchantId;
     public GridView gridview;
     public ArrayList<MerchantStampInfoContract> stampData = new ArrayList<MerchantStampInfoContract>();
     public StampSetAdapter stampSetAdapter;
@@ -62,6 +64,7 @@ public class StampList extends Fragment {
         //GET SHARED PREFERENCES
         SharedPreferences mSettings = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
         UserID = mSettings.getString(getActivity().getString(R.string.SHARE_PREF_UserId), null);
+        MerchantId = mSettings.getString(getActivity().getString(R.string.SHARE_PREF_MerchantId), null);
 
         gridview = (GridView)rootView.findViewById(R.id.gvStampList);
 
@@ -152,7 +155,7 @@ public class StampList extends Fragment {
 
                 //GET FROM API
 
-                mAuthTask = new StampSetTask(UserID);
+                mAuthTask = new StampSetTask(MerchantId);
                 mAuthTask.execute((Void) null);
 
             }
@@ -195,10 +198,10 @@ public class StampList extends Fragment {
 
     public class StampSetTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final String CustomerId;
+        private final String MerchantId;
 
-        StampSetTask(String customerId) {
-            CustomerId = customerId;
+        StampSetTask(String merchantId) {
+            MerchantId = merchantId;
         }
 
         @Override
@@ -215,7 +218,7 @@ public class StampList extends Fragment {
 
                 Common comm = new Common();
                 comm.setAPIURL(getString(R.string.AloopyAPIURL));
-                jsonResponse = comm.GetAPI("/aloopy/customerstampset/" + CustomerId);
+                jsonResponse = comm.GetAPI("/aloopy/stamps/?merchantId=" + MerchantId);
 
 
                 if (jsonResponse != null) {
@@ -265,25 +268,6 @@ public class StampList extends Fragment {
 
                                 stampData.add(stampItem);
 
-/*
-                                MerchantStampInfoContract.MerchantStampInformation.COLUMN_NAME_Stampset_ID,
-                                MerchantStampInfoContract.MerchantStampInformation.COLUMN_NAME_Store_ID,
-                                MerchantStampInfoContract.MerchantStampInformation.COLUMN_NAME_Store_StampSet_ID,
-                                MerchantStampInfoContract.MerchantStampInformation.COLUMN_NAME_Stamp_Title,
-                                MerchantStampInfoContract.MerchantStampInformation.COLUMN_NAME_Stamp_Volume,
-                                MerchantStampInfoContract.MerchantStampInformation.COLUMN_NAME_Background_Color,
-                                MerchantStampInfoContract.MerchantStampInformation.COLUMN_NAME_Background_Color2,
-                                MerchantStampInfoContract.MerchantStampInformation.COLUMN_NAME_Text_Color,
-                                MerchantStampInfoContract.MerchantStampInformation.COLUMN_NAME_Merchant_Logo_H,
-                                MerchantStampInfoContract.MerchantStampInformation.COLUMN_NAME_Merchant_Logo_V,
-                                MerchantStampInfoContract.MerchantStampInformation.COLUMN_NAME_Stamp_Icon,
-                                MerchantStampInfoContract.MerchantStampInformation.COLUMN_NAME_Reward_Image,
-                                MerchantStampInfoContract.MerchantStampInformation.COLUMN_NAME_QR_Code,
-                                MerchantStampInfoContract.MerchantStampInformation.COLUMN_NAME_Date_Created,
-                                MerchantStampInfoContract.MerchantStampInformation.COLUMN_NAME_Date_Modified,
-                                MerchantStampInfoContract.MerchantStampInformation.COLUMN_NAME_Start_Date,
-                                MerchantStampInfoContract.MerchantStampInformation.COLUMN_NAME_End_Date,
-                 */
 
                                 //SAVE TO DATABASE
                                 ContentValues values = new ContentValues();
