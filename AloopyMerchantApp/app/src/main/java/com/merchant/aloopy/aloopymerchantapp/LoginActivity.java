@@ -33,6 +33,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.merchant.aloopy.aloopydatabase.AloopySQLHelper;
+import com.merchant.aloopy.aloopydatabase.MerchantInfoContract;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -282,15 +285,16 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
                     if (strSuccess == "true") {
 
-                        JSONArray customerInfo = jsonResponse.getJSONArray("merchantInfo");
+                        JSONArray userInfo = jsonResponse.getJSONArray("merchantUserInfo");
+                        JSONArray merchantInfo = jsonResponse.getJSONArray("merchantInfo");
 
-                        if(customerInfo != null && customerInfo.length() > 0) {
-                            userId = customerInfo.getJSONObject(0).getString("id");
-                            userDisplay = customerInfo.getJSONObject(0).getString("firstName")  +
-                                    " " +
-                                    customerInfo.getJSONObject(0).getString("lastName") +
+                        if(userInfo != null && userInfo.length() > 0
+                                && merchantInfo != null && merchantInfo.length() > 0) {
+
+                            userId = userInfo.getJSONObject(0).getString("id");
+                            userDisplay = userInfo.getJSONObject(0).getString("name")  +
                                     " (" +
-                                    customerInfo.getJSONObject(0).getString("code") +
+                                    merchantInfo.getJSONObject(0).getString("merchantName") +
                                     ")"
                             ;
 
@@ -301,35 +305,46 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                             editor.putString(getString(R.string.SHARE_PREF_UserName), userDisplay);
                             editor.commit();
 
-/*
+
                             // Gets the data repository in write mode
                             AloopySQLHelper helper = AloopySQLHelper.getInstance(getBaseContext());
                             SQLiteDatabase db = helper.getWritableDatabase();
 
                             // Create a new map of values, where column names are the keys
                             ContentValues values = new ContentValues();
-                            values.put(CustomerInfoContract.CustomerInformation.COLUMN_NAME_Customer_ID, customerInfo.getJSONObject(0).getString("id"));
-                            values.put(CustomerInfoContract.CustomerInformation.COLUMN_NAME_Username, customerInfo.getJSONObject(0).getString("username"));
-                            values.put(CustomerInfoContract.CustomerInformation.COLUMN_NAME_Code, customerInfo.getJSONObject(0).getString("code"));
-                            values.put(CustomerInfoContract.CustomerInformation.COLUMN_NAME_EmailAddress, customerInfo.getJSONObject(0).getString("emailAddress"));
-                            values.put(CustomerInfoContract.CustomerInformation.COLUMN_NAME_FirstName, customerInfo.getJSONObject(0).getString("firstName"));
-                            values.put(CustomerInfoContract.CustomerInformation.COLUMN_NAME_LastName, customerInfo.getJSONObject(0).getString("lastName"));
-                            values.put(CustomerInfoContract.CustomerInformation.COLUMN_NAME_DateCreated, customerInfo.getJSONObject(0).getString("dateCreated"));
-                            values.put(CustomerInfoContract.CustomerInformation.COLUMN_NAME_DateModified, customerInfo.getJSONObject(0).getString("dateModified"));
 
-                            values.put(CustomerInfoContract.CustomerInformation.COLUMN_NAME_QRCodeURL, customerInfo.getJSONObject(0).getJSONObject("qrCodeImage_3x").getString("imageURL"));
-                            values.put(CustomerInfoContract.CustomerInformation.COLUMN_NAME_AvatarURL, customerInfo.getJSONObject(0).getJSONObject("avatarURLImage_3x").getString("imageURL"));
+                            values.put(MerchantInfoContract.MerchantInformation.COLUMN_NAME_Merchant_ID, merchantInfo.getJSONObject(0).getString("id"));
+                            values.put(MerchantInfoContract.MerchantInformation.COLUMN_NAME_Merchant_Name, merchantInfo.getJSONObject(0).getString("merchantName"));
+                            values.put(MerchantInfoContract.MerchantInformation.COLUMN_NAME_Parent_Merchant_ID, merchantInfo.getJSONObject(0).getString("id"));
+                            values.put(MerchantInfoContract.MerchantInformation.COLUMN_NAME_Beacon_UUID, merchantInfo.getJSONObject(0).getString("beaconUUID"));
+                            values.put(MerchantInfoContract.MerchantInformation.COLUMN_NAME_Merchant_Type, merchantInfo.getJSONObject(0).getString("merchantType"));
+                            values.put(MerchantInfoContract.MerchantInformation.COLUMN_NAME_Merchant_Logo_V, merchantInfo.getJSONObject(0).getString("verticalLogoFilepath"));
+                            values.put(MerchantInfoContract.MerchantInformation.COLUMN_NAME_Merchant_Logo_H, merchantInfo.getJSONObject(0).getString("horizontalLogoFilepath"));
+                            values.put(MerchantInfoContract.MerchantInformation.COLUMN_NAME_Address, merchantInfo.getJSONObject(0).getString("address"));
+                            values.put(MerchantInfoContract.MerchantInformation.COLUMN_NAME_Country, merchantInfo.getJSONObject(0).getString("country"));
+                            values.put(MerchantInfoContract.MerchantInformation.COLUMN_NAME_Country_Code, merchantInfo.getJSONObject(0).getString("countryCode"));
+                            values.put(MerchantInfoContract.MerchantInformation.COLUMN_NAME_Telephone_No, merchantInfo.getJSONObject(0).getString("telephoneNo"));
+                            values.put(MerchantInfoContract.MerchantInformation.COLUMN_NAME_Mobile_No, merchantInfo.getJSONObject(0).getString("mobileNo"));
+                            values.put(MerchantInfoContract.MerchantInformation.COLUMN_NAME_Email_Address, merchantInfo.getJSONObject(0).getString("contactPersonEmail"));
+                            values.put(MerchantInfoContract.MerchantInformation.COLUMN_NAME_Contact_Person, merchantInfo.getJSONObject(0).getString("contactPerson"));
+                            values.put(MerchantInfoContract.MerchantInformation.COLUMN_NAME_Contact_Person_Email, merchantInfo.getJSONObject(0).getString("contactPersonEmail"));
+                            values.put(MerchantInfoContract.MerchantInformation.COLUMN_NAME_Contact_Person_Mobile, merchantInfo.getJSONObject(0).getString("contactPersonMobile"));
+                            values.put(MerchantInfoContract.MerchantInformation.COLUMN_NAME_Date_Modified, merchantInfo.getJSONObject(0).getString("dateModified"));
+
+
+                            //values.put(MerchantInfoContract.MerchantInformation.COLUMN_NAME_Merchant_ID, merchantInfo.getJSONObject(0).getString("id"));
+
 
                             // Insert the new row, returning the primary key value of the new row
                             long newRowId;
-                            db.delete(CustomerInfoContract.CustomerInformation.TABLE_NAME, null, null);
+                            db.delete(MerchantInfoContract.MerchantInformation.TABLE_NAME, null, null);
                             newRowId = db.insert(
-                                    CustomerInfoContract.CustomerInformation.TABLE_NAME,
-                                    CustomerInfoContract.CustomerInformation.COLUMN_NAME_Code,
+                                    MerchantInfoContract.MerchantInformation.TABLE_NAME,
+                                    MerchantInfoContract.MerchantInformation.COLUMN_NAME_Merchant_ID,
                                     values);
 
                             db.close();
-                            */
+
                         }
 
 
