@@ -32,9 +32,11 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.merchant.aloopy.aloopydatabase.AloopySQLHelper;
 import com.merchant.aloopy.aloopydatabase.MerchantInfoContract;
+import com.merchant.aloopy.aloopydatabase.UserInfoContract;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -71,10 +73,17 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
+                if (Common.GetInternetConnectivity((ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE))) {
+                    if (id == R.id.login || id == EditorInfo.IME_NULL) {
+                        attemptLogin();
+                        return true;
+                    }
                 }
+                else {
+                    mPasswordView.setError(getString(R.string.message_Internet_Required));
+                    mPasswordView.requestFocus();
+                }
+
                 return false;
             }
         });
@@ -89,6 +98,20 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+
+        //GO RIGHT IN, BECAUSE YOU ALREADY LOGGED IN BEFORE
+        SharedPreferences mSettings = PreferenceManager.getDefaultSharedPreferences(this.getBaseContext());
+        String UserID = mSettings.getString(this.getString(R.string.SHARE_PREF_UserId), null);
+        String UserDisplay = mSettings.getString(this.getString(R.string.SHARE_PREF_UserName), null);
+        if(UserID != null && !UserID.isEmpty())
+        {
+            Toast toast = Toast.makeText(getBaseContext(), "Logged in as " + UserDisplay, Toast.LENGTH_SHORT);
+            toast.show();
+
+            Intent intent = new Intent(getBaseContext(), MainActivity.class);
+            startActivity(intent);
+        }
     }
 
     private void populateAutoComplete() {
@@ -331,12 +354,23 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                             values.put(MerchantInfoContract.MerchantInformation.COLUMN_NAME_Contact_Person_Mobile, merchantInfo.getJSONObject(0).getString("contactPersonMobile"));
                             values.put(MerchantInfoContract.MerchantInformation.COLUMN_NAME_Date_Modified, merchantInfo.getJSONObject(0).getString("dateModified"));
 
-
-                            //values.put(MerchantInfoContract.MerchantInformation.COLUMN_NAME_Merchant_ID, merchantInfo.getJSONObject(0).getString("id"));
-
-
-                            // Insert the new row, returning the primary key value of the new row
+                            //INSERT TO DB
                             long newRowId;
+                            db.delete(MerchantInfoContract.MerchantInformation.TABLE_NAME, null, null);
+                            newRowId = db.insert(
+                                    MerchantInfoContract.MerchantInformation.TABLE_NAME,
+                                    MerchantInfoContract.MerchantInformation.COLUMN_NAME_Merchant_ID,
+                                    values);
+
+                            values.put(UserInfoContract.UserInformation.COLUMN_NAME_User_ID, userInfo.getJSONObject(0).getString("id"));
+                            values.put(UserInfoContract.UserInformation.COLUMN_NAME_User_Name, userInfo.getJSONObject(0).getString("username"));
+                            values.put(UserInfoContract.UserInformation.COLUMN_NAME_Display_Name, userInfo.getJSONObject(0).getString("name"));
+                            values.put(UserInfoContract.UserInformation.COLUMN_NAME_Email, userInfo.getJSONObject(0).getString("email"));
+                            values.put(UserInfoContract.UserInformation.COLUMN_NAME_Address, userInfo.getJSONObject(0).getString("address"));
+                            values.put(UserInfoContract.UserInformation.COLUMN_NAME_ContactNo, userInfo.getJSONObject(0).getString("contactNo"));
+                            values.put(UserInfoContract.UserInformation.COLUMN_NAME_Date_Modified, userInfo.getJSONObject(0).getString("dateModified"));
+
+                            //INSERT TO DB
                             db.delete(MerchantInfoContract.MerchantInformation.TABLE_NAME, null, null);
                             newRowId = db.insert(
                                     MerchantInfoContract.MerchantInformation.TABLE_NAME,
