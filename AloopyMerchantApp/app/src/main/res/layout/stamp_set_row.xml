@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="200dp"
+    android:orientation="vertical"
+    android:id="@+id/frmBody"
+    android:background="@color/accent_material_dark"
+    android:layout_margin="5dp">
+
+
+
+
+    <ImageView
+        android:id="@+id/imgMerchantLogo"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/MerchantLogoAlt"
+        android:layout_marginLeft="3dp"
+        android:layout_marginTop="3dp">
+    </ImageView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:id="@+id/lblStampCount"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textSize="16dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/StampCountLabel"
+        android:id="@+id/lblStampLabel"
+        android:layout_centerInParent="@+id/lblStampCount"
+        android:textSize="10dp"
+        android:layout_below="@+id/lblStampCount"
+        android:layout_alignRight="@+id/lblStampCount"
+        android:layout_alignEnd="@+id/lblStampCount" />
+
+    <TextView
+        android:id="@+id/txtStampSetTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="3dp"
+        android:textSize="12dp"
+        android:layout_below="@+id/imgMerchantLogo">
+    </TextView>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@+id/txtStampSetTitle"
+        android:id="@+id/dvStampRow1"
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:id="@+id/imgStamp1"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="2dp"
+            android:alpha="0.5"/>
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:id="@+id/imgStamp2"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="2dp"
+            android:alpha="0.5"/>
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:id="@+id/imgStamp3"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="2dp"
+            android:alpha="0.5"/>
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:id="@+id/imgStamp4"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="2dp"
+            android:alpha="0.5"/>
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:id="@+id/imgStamp5"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="2dp"
+            android:alpha="0.5" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@+id/dvStampRow1"
+        android:id="@+id/dvStampRow2"
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:id="@+id/imgStamp6"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="2dp"
+            android:alpha="0.5" />
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:id="@+id/imgStamp7"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="2dp"
+            android:alpha="0.5" />
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:id="@+id/imgStamp8"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="2dp"
+            android:alpha="0.5" />
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:id="@+id/imgStamp9"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="2dp"
+            android:alpha="0.5" />
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:id="@+id/imgStamp10"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="2dp"
+            android:alpha="0.5" />
+
+
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:id="@+id/imgQRCode"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:id="@+id/txtStampSetId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+    </TextView>
+
+
+
+</RelativeLayout>

@@ -2,20 +2,20 @@
     <string name="AloopyAPIURL">http://130.211.177.252:9999</string>
     <string name="SHARE_PREF_UserId">UserId</string>
     <string name="SHARE_PREF_UserName">Username</string>
+    <string name="EXTRA_LoginDisplay_Name">com.merchant.aloopy.aloopymerchantapp.LoginDisplay_Name</string>
+    <string name="EXTRA_StampDetail_Id">com.merchant.aloopy.aloopymerchantapp.StoreStampId</string>
 
     <string name="message_Internet_Required">This requires an active Internet connection.</string>
 
     <string name="app_name">Aloopy Merchant App</string>
     <string name="title_activity_main">Main</string>
-
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
-
-    <string name="hello_world">Hello world!</string>
-
     <string name="action_settings">Settings</string>
     <string name="action_profile">Profile</string>
     <string name="action_logout">Log Out</string>
     <string name="btnRefresh">REFRESH</string>
+    <string name="StampCountLabel">Stamps</string>
+
+    <string name="MerchantLogoAlt">Merchant Logo</string>
+    <string name="StampRewardImageALT">Stamp Reward</string>
+
 </resources>

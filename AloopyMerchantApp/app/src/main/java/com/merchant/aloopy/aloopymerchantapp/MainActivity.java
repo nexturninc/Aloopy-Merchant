@@ -116,29 +116,23 @@ public class MainActivity extends ActionBarActivity {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
 
-            /*
+
             switch(position)
             {
                 case 0:
                     StampList stampList = StampList.newInstance();
                     return stampList;
-                case 1:
-                    CouponList couponList = CouponList.newInstance();
-                    return couponList;
-                case 2:
-                    return TestFragment.newInstance(2);
                 default:
-                    return TestFragment.newInstance(999);
+                    return null;
             }
-*/
 
-            return null;
+
         }
 
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return 1;
         }
 
         @Override
@@ -146,11 +140,11 @@ public class MainActivity extends ActionBarActivity {
             Locale l = Locale.getDefault();
             switch (position) {
                 case 0:
-                    return getString(R.string.title_section3).toUpperCase(l);
+                    return "";//getString(R.string.title_section3).toUpperCase(l);
                 case 1:
-                    return getString(R.string.title_section2).toUpperCase(l);
+                    return "";//getString(R.string.title_section2).toUpperCase(l);
                 case 2:
-                    return getString(R.string.title_section1).toUpperCase(l);
+                    return "";//getString(R.string.title_section1).toUpperCase(l);
             }
             return null;
         }
