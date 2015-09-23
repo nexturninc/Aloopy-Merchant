@@ -38,6 +38,13 @@
         android:layout_height="match_parent"
         android:id="@+id/dvStampListBody">
 
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnScanCustomerStamp"
+            android:text="@string/btnScanCustomerStamp" />
+
+
         <GridView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/gvStampList"
             android:layout_width="match_parent"

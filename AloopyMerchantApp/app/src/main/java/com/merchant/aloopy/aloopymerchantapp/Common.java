@@ -1,6 +1,9 @@
 package com.merchant.aloopy.aloopymerchantapp;
 
+import android.content.AsyncQueryHandler;
 import android.content.Context;
+import android.hardware.camera2.*;
+import android.hardware.camera2.CameraManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
@@ -15,6 +18,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
 
 /**
  * Created by imbisibol on 9/17/2015.
@@ -219,4 +223,5 @@ public class Common {
         return connected;
 
     }
+
 }

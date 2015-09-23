@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,8 +27,8 @@ import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+
 import com.merchant.aloopy.aloopydatabase.AloopySQLHelper;
-import com.merchant.aloopy.aloopydatabase.MerchantInfoContract;
 import com.merchant.aloopy.aloopydatabase.MerchantStampInfoContract;
 
 import org.json.JSONArray;
@@ -51,15 +52,18 @@ public class StampList extends Fragment {
     private View mStampListBody;
 
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.stamp_list, container, false);
+        final View rootView = inflater.inflate(R.layout.stamp_list, container, false);
 
         mProgressBar = ((ProgressBar)rootView.findViewById(R.id.login_progress));
         mStampListBody = (rootView.findViewById(R.id.dvStampListBody));
         Button btnRefresh = (Button)rootView.findViewById(R.id.btnRefresh);
+        Button btnScanQR = (Button)rootView.findViewById(R.id.btnScanCustomerStamp);
+
 
         //GET SHARED PREFERENCES
         SharedPreferences mSettings = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
@@ -91,10 +95,21 @@ public class StampList extends Fragment {
                 GetStamps(true);
             }
         });
+        btnScanQR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getActivity().getBaseContext(), QRScannerActivity.class);
+                intent.putExtra(getString(R.string.EXTRA_QR_Scanner_Mode), "Stamp");
+                startActivity(intent);
+
+            }
+        });
 
 
         return rootView;
     }
+
 
     public static StampList newInstance() {
         StampList fragment = new StampList();

@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.merchant.aloopy.aloopydatabase.MerchantStampInfoContract;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 /**
@@ -58,6 +60,8 @@ public class StampSetAdapter extends ArrayAdapter<MerchantStampInfoContract> {
             holder.StampMerchantLogo = (ImageView) row.findViewById(R.id.imgMerchantLogo);
             holder.StampBody = (RelativeLayout) row.findViewById(R.id.frmBody);
             holder.StampQRCode = (ImageView) row.findViewById(R.id.imgQRCode);
+            holder.StampCount = (TextView)row.findViewById(R.id.lblStampCount);
+            holder.StampLabel = (TextView)row.findViewById(R.id.lblStampLabel);
             holder.Stamp1 = (ImageView) row.findViewById(R.id.imgStamp1);
             holder.Stamp2 = (ImageView) row.findViewById(R.id.imgStamp2);
             holder.Stamp3 = (ImageView) row.findViewById(R.id.imgStamp3);
@@ -78,6 +82,8 @@ public class StampSetAdapter extends ArrayAdapter<MerchantStampInfoContract> {
         holder.StampSetId.setText(item.StoreStampSetId);
         holder.StampSetTitle.setText(item.StampTitle);
         holder.StampSetTitle.setTextColor(Integer.parseInt(item.TextColor.replaceAll("#", ""), 16) + 0xFF000000);
+        holder.StampCount.setTextColor(Integer.parseInt(item.TextColor.replaceAll("#", ""), 16) + 0xFF000000);
+        holder.StampLabel.setTextColor(Integer.parseInt(item.TextColor.replaceAll("#", ""), 16) + 0xFF000000);
 
         if (item.MerchantLogoH != null && item.MerchantLogoH != "")
             Common.getImageLoader(null).displayImage(item.MerchantLogoH, holder.StampMerchantLogo);
@@ -121,6 +127,8 @@ public class StampSetAdapter extends ArrayAdapter<MerchantStampInfoContract> {
 
     static class StampItem
     {
+        public TextView StampCount;
+        public TextView StampLabel;
         public TextView StampSetId;
         public TextView StampSetTitle;
         public ImageView StampMerchantLogo;

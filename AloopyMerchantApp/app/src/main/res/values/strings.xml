@@ -18,5 +18,7 @@
 
     <string name="MerchantLogoAlt">Merchant Logo</string>
     <string name="StampRewardImageALT">Stamp Reward</string>
+    <string name="btnScanCustomerStamp">Scan Customer Stamp</string>
+    <string name="EXTRA_QR_Scanner_Mode">QRScannerMode</string>
 
 </resources>
