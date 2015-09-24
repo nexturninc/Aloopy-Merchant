@@ -99,10 +99,15 @@ public class StampList extends Fragment {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(getActivity().getBaseContext(), QRScannerActivity.class);
-                intent.putExtra(getString(R.string.EXTRA_QR_Scanner_Mode), "Stamp");
-                startActivity(intent);
-
+                if(Common.GetInternetConnectivity((ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE))) {
+                    Intent intent = new Intent(getActivity().getBaseContext(), QRScannerActivity.class);
+                    intent.putExtra(getString(R.string.EXTRA_QR_Scanner_Mode), "Stamp");
+                    startActivity(intent);
+                }
+                else
+                {
+                    Toast.makeText(getActivity().getBaseContext(), getString(R.string.message_Internet_Required), Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

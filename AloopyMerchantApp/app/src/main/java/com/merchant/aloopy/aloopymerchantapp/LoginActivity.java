@@ -281,6 +281,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             String userId = "";
             String userDisplay = "";
             String merchantId = "";
+            String merchantType = "";
 
             JSONObject jsonResponse = null;
 
@@ -301,14 +302,22 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     String strSuccess = jsonResponse.getString("success");
 
                     if (strSuccess == "true") {
-
-                        JSONArray userInfo = jsonResponse.getJSONArray("merchantUserInfo");
-                        JSONArray merchantInfo = jsonResponse.getJSONArray("merchantInfo");
+                        JSONArray userInfo = null;
+                        if(jsonResponse.has("merchantUserInfo") && !jsonResponse.isNull("merchantUserInfo"))
+                            userInfo = jsonResponse.getJSONArray("merchantUserInfo");
+                        else
+                            userInfo = jsonResponse.getJSONArray("storeUserInfo");
+                        JSONArray merchantInfo = null;
+                        if(jsonResponse.has("merchantInfo") && !jsonResponse.isNull("merchantInfo"))
+                            merchantInfo = jsonResponse.getJSONArray("merchantInfo");
+                        else
+                            merchantInfo = jsonResponse.getJSONArray("storeInfo");
 
                         if(userInfo != null && userInfo.length() > 0
                                 && merchantInfo != null && merchantInfo.length() > 0) {
 
                             merchantId = merchantInfo.getJSONObject(0).getString("id");
+                            merchantType = merchantInfo.getJSONObject(0).getString("merchantType");
                             userId = userInfo.getJSONObject(0).getString("id");
                             userDisplay = userInfo.getJSONObject(0).getString("name")  +
                                     " (" +
@@ -322,6 +331,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                             editor.putString(getString(R.string.SHARE_PREF_UserId), userId);
                             editor.putString(getString(R.string.SHARE_PREF_UserName), userDisplay);
                             editor.putString(getString(R.string.SHARE_PREF_MerchantId), merchantId);
+                            editor.putString(getString(R.string.SHARE_PREF_MerchantType), merchantType);
                             editor.commit();
 
 

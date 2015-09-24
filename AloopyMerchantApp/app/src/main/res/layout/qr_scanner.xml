@@ -23,8 +23,8 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textSize="14dp"
-            android:text="@string/lblScanCustomerStamp"/>
+            android:id="@+id/lblScannerLabel"
+            android:textSize="14dp"/>
 
         <TextView
             android:layout_width="fill_parent"
@@ -37,13 +37,22 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:textSize="14dp"
-            android:text="Click on the button below to update the Customer Stamp you scanned. This will give them a new Stamp."/>
-
+            android:id="@+id/lblStampScannerInstructions"
+            android:visibility="gone"
+            android:text="@string/lblStampScannerInstructions"/>
         <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/btnUpdateCustomerStamp"
+            android:visibility="gone"
             android:text="@string/btnUpdateCustomerStamp"/>
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnBackToList"
+            android:layout_marginTop="10dp"
+            android:text="@string/btnBackToList"/>
 
     </LinearLayout>
 

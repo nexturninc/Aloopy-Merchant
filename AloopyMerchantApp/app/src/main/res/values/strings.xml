@@ -3,10 +3,14 @@
     <string name="SHARE_PREF_UserId">UserId</string>
     <string name="SHARE_PREF_UserName">Username</string>
     <string name="SHARE_PREF_MerchantId">MerchantId</string>
+    <string name="SHARE_PREF_MerchantType">MerchantType</string>
     <string name="EXTRA_LoginDisplay_Name">com.merchant.aloopy.aloopymerchantapp.LoginDisplay_Name</string>
     <string name="EXTRA_StampDetail_Id">com.merchant.aloopy.aloopymerchantapp.StoreStampId</string>
+    <string name="EXTRA_QR_Scanner_Mode">QRScannerMode</string>
 
     <string name="message_Internet_Required">This requires an active Internet connection.</string>
+    <string name="message_InvalidCustomerStampID">Invalid Customer Stamp ID</string>
+    <string name="message_unexpected_error">An unexpected error has occurred.</string>
 
     <string name="app_name">Aloopy Merchant App</string>
     <string name="title_activity_main">Main</string>
@@ -19,8 +23,9 @@
     <string name="MerchantLogoAlt">Merchant Logo</string>
     <string name="StampRewardImageALT">Stamp Reward</string>
     <string name="btnScanCustomerStamp">Scan Customer Stamp</string>
-    <string name="EXTRA_QR_Scanner_Mode">QRScannerMode</string>
-    <string name="lblScanCustomerStamp">Customer Stamp ID:</string>
     <string name="btnUpdateCustomerStamp">Update Customer Stamp</string>
+    <string name="btnBackToList">Back to List</string>
+    <string name="lblStampScannerInstructions">Click on the button below to update the Customer Stamp you scanned. This will give them a new Stamp.</string>
+
 
 </resources>
