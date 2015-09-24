@@ -8,16 +8,43 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.merchant.aloopy.aloopymerchantapp.QRScannerActivity">
 
-    <Button
+
+    <ProgressBar android:id="@+id/login_progress" style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp" android:visibility="gone" />
+
+
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="SCAN QR CODE"
-        android:id="@+id/btnRefresh"/>
+        android:orientation="vertical"
+        android:id="@+id/dvStampListBody">
 
-    <FrameLayout
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/dvCameraView"
-        android:visibility="gone"></FrameLayout>
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:text="@string/lblScanCustomerStamp"/>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lblCustomerStampId"
+            android:textSize="20dp"/>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:textSize="14dp"
+            android:text="Click on the button below to update the Customer Stamp you scanned. This will give them a new Stamp."/>
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnUpdateCustomerStamp"
+            android:text="@string/btnUpdateCustomerStamp"/>
+
+    </LinearLayout>
 
 </LinearLayout>

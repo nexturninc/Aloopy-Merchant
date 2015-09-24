@@ -20,5 +20,7 @@
     <string name="StampRewardImageALT">Stamp Reward</string>
     <string name="btnScanCustomerStamp">Scan Customer Stamp</string>
     <string name="EXTRA_QR_Scanner_Mode">QRScannerMode</string>
+    <string name="lblScanCustomerStamp">Customer Stamp ID:</string>
+    <string name="btnUpdateCustomerStamp">Update Customer Stamp</string>
 
 </resources>
