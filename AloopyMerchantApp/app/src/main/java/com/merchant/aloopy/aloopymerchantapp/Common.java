@@ -87,8 +87,8 @@ public class Common {
         }
 
         //LHARIE - put some random text below this:
-        //
-        //LHARIE - replace this text with random text
+        //THIS IS MY TEXT - MIKE
+        //LHARIE - replace this text with random text - edited by mike
 
         return jsonObject;
     }
