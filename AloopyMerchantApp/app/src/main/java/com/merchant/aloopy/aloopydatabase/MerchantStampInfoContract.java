@@ -24,6 +24,8 @@ public class MerchantStampInfoContract {
     public String DateModified;
     public String StartDate;
     public String EndDate;
+    public int CustomerStampCount;
+    public int CustomerStampCompletedCount;
 
     public MerchantStampInfoContract()
     {
@@ -31,7 +33,6 @@ public class MerchantStampInfoContract {
     }
 
     private static final String TEXT_TYPE = " TEXT";
-    private static final String DATE_TYPE = " DATETIME";
     private static final String COMMA_SEP = ",";
     public static final String SQL_CREATE_TABLE =
             "CREATE TABLE " + MerchantStampInformation.TABLE_NAME + " (" +
@@ -52,6 +53,8 @@ public class MerchantStampInfoContract {
                     MerchantStampInformation.COLUMN_NAME_Date_Created + TEXT_TYPE + COMMA_SEP +
                     MerchantStampInformation.COLUMN_NAME_Date_Modified + TEXT_TYPE + COMMA_SEP +
                     MerchantStampInformation.COLUMN_NAME_Start_Date + TEXT_TYPE + COMMA_SEP +
+                    MerchantStampInformation.COLUMN_NAME_Customer_Stamp_Count + TEXT_TYPE + COMMA_SEP +
+                    MerchantStampInformation.COLUMN_NAME_Customer_Stamp_Completed_Count + TEXT_TYPE + COMMA_SEP +
                     MerchantStampInformation.COLUMN_NAME_End_Date + TEXT_TYPE +
                     " )";
     public static final String SQL_DELETE_TABLE =
@@ -76,6 +79,8 @@ public class MerchantStampInfoContract {
         public static final String COLUMN_NAME_Date_Modified = "DateModified";
         public static final String COLUMN_NAME_Start_Date = "StartDate";
         public static final String COLUMN_NAME_End_Date = "EndDate";
+        public static final String COLUMN_NAME_Customer_Stamp_Count = "CustomerStampCount";
+        public static final String COLUMN_NAME_Customer_Stamp_Completed_Count = "CustomerStampCompletedCount";
 
     }
 }

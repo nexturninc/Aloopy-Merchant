@@ -151,6 +151,8 @@ public class StampList extends Fragment {
                 MerchantStampInfoContract.MerchantStampInformation.COLUMN_NAME_Date_Modified,
                 MerchantStampInfoContract.MerchantStampInformation.COLUMN_NAME_Start_Date,
                 MerchantStampInfoContract.MerchantStampInformation.COLUMN_NAME_End_Date,
+                MerchantStampInfoContract.MerchantStampInformation.COLUMN_NAME_Customer_Stamp_Count,
+                MerchantStampInfoContract.MerchantStampInformation.COLUMN_NAME_Customer_Stamp_Completed_Count,
         };
 
         Cursor c = db.query(
@@ -203,6 +205,8 @@ public class StampList extends Fragment {
                     stampItem.DateModified = c.getString(c.getColumnIndexOrThrow(MerchantStampInfoContract.MerchantStampInformation.COLUMN_NAME_Date_Modified));
                     stampItem.StartDate = c.getString(c.getColumnIndexOrThrow(MerchantStampInfoContract.MerchantStampInformation.COLUMN_NAME_Start_Date));
                     stampItem.EndDate = c.getString(c.getColumnIndexOrThrow(MerchantStampInfoContract.MerchantStampInformation.COLUMN_NAME_End_Date));
+                    stampItem.CustomerStampCount = c.getInt(c.getColumnIndexOrThrow(MerchantStampInfoContract.MerchantStampInformation.COLUMN_NAME_Customer_Stamp_Count));
+                    stampItem.CustomerStampCompletedCount = c.getInt(c.getColumnIndexOrThrow(MerchantStampInfoContract.MerchantStampInformation.COLUMN_NAME_Customer_Stamp_Completed_Count));
 
                     stampData.add(stampItem);
                 }
@@ -285,6 +289,9 @@ public class StampList extends Fragment {
                                 stampItem.DateModified = stampSetArray.getJSONObject(ctr).getString("dateModified");
                                 stampItem.StartDate = stampSetArray.getJSONObject(ctr).getString("startDate");
                                 stampItem.EndDate = stampSetArray.getJSONObject(ctr).getString("endDate");
+                                stampItem.CustomerStampCount  = stampSetArray.getJSONObject(ctr).getInt("customerStampsCount");
+                                stampItem.CustomerStampCompletedCount  = stampSetArray.getJSONObject(ctr).getInt("customerStampsCompletedCount");
+
 
                                 stampData.add(stampItem);
 
@@ -308,6 +315,8 @@ public class StampList extends Fragment {
                                 values.put(MerchantStampInfoContract.MerchantStampInformation.COLUMN_NAME_Date_Modified, stampItem.DateModified);
                                 values.put(MerchantStampInfoContract.MerchantStampInformation.COLUMN_NAME_Start_Date, stampItem.StartDate);
                                 values.put(MerchantStampInfoContract.MerchantStampInformation.COLUMN_NAME_End_Date, stampItem.EndDate);
+                                values.put(MerchantStampInfoContract.MerchantStampInformation.COLUMN_NAME_Customer_Stamp_Count, stampItem.CustomerStampCount);
+                                values.put(MerchantStampInfoContract.MerchantStampInformation.COLUMN_NAME_Customer_Stamp_Completed_Count, stampItem.CustomerStampCompletedCount);
 
 
                                 long newRowId;

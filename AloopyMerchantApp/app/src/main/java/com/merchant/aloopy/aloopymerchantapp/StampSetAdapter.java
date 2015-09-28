@@ -83,6 +83,7 @@ public class StampSetAdapter extends ArrayAdapter<MerchantStampInfoContract> {
         holder.StampSetTitle.setText(item.StampTitle);
         holder.StampSetTitle.setTextColor(Integer.parseInt(item.TextColor.replaceAll("#", ""), 16) + 0xFF000000);
         holder.StampCount.setTextColor(Integer.parseInt(item.TextColor.replaceAll("#", ""), 16) + 0xFF000000);
+        holder.StampCount.setText(String.valueOf(item.CustomerStampCount));
         holder.StampLabel.setTextColor(Integer.parseInt(item.TextColor.replaceAll("#", ""), 16) + 0xFF000000);
 
         if (item.MerchantLogoH != null && item.MerchantLogoH != "")

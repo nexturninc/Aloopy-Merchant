@@ -28,7 +28,7 @@
     <string name="lblStampScannerInstructions">Click on the button below to update the Customer Stamp you scanned. This will give them a new Stamp.</string>
     <string name="btnScanCustomerQR">Scan Customer QR Code</string>
     <string name="btnGiveCustomerStamp">Give Customer Stamp Set</string>
-    <string name="lblGiveCustomerStampInstructions">Click on the button below to scan Customer\'s QR Code and give them a Stamp Card:</string>
+    <string name="lblGiveCustomerStampInstructions">Click on the button below to give scanned Customer a Stamp Card:</string>
     <string name="lblStatusLabel">Process Status:</string>
 
 

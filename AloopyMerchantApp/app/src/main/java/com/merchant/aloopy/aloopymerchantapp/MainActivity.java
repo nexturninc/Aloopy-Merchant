@@ -15,6 +15,7 @@ import android.view.MenuItem;
 
 import com.merchant.aloopy.aloopydatabase.AloopySQLHelper;
 import com.merchant.aloopy.aloopydatabase.MerchantInfoContract;
+import com.merchant.aloopy.aloopydatabase.MerchantStampInfoContract;
 import com.merchant.aloopy.aloopydatabase.UserInfoContract;
 
 import java.util.Locale;
@@ -86,6 +87,7 @@ public class MainActivity extends ActionBarActivity {
 
             db.delete(MerchantInfoContract.MerchantInformation.TABLE_NAME, null, null);
             db.delete(UserInfoContract.UserInformation.TABLE_NAME, null, null);
+            db.delete(MerchantStampInfoContract.MerchantStampInformation.TABLE_NAME, null, null);
 
             SharedPreferences mSettings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
             SharedPreferences.Editor editor = mSettings.edit();
