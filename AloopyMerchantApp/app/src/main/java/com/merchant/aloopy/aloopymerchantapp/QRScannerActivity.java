@@ -3,11 +3,9 @@ package com.merchant.aloopy.aloopymerchantapp;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
@@ -15,7 +13,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,13 +24,10 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.merchant.aloopy.aloopydatabase.AloopySQLHelper;
 import com.merchant.aloopy.aloopydatabase.MerchantInfoContract;
-import com.merchant.aloopy.aloopydatabase.MerchantStampInfoContract;
 import com.merchant.aloopy.aloopydatabase.UserInfoContract;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.Locale;
 import java.util.UUID;
 
 /**
@@ -41,14 +35,18 @@ import java.util.UUID;
  */
 public class QRScannerActivity extends ActionBarActivity {
 
-    static final String ACTION_SCAN = "com.google.zxing.client.android.SCAN";
     private IntentIntegrator integrator = null;
     private String UserId = null;
     private CustomerStampTask mTask = null;
+    private CustomerStampSetTask mStampSetTask = null;
     private String ScanType = null;
+    private String StoreStampId = null;
 
-    private TextView lblCustomerStampId = null;
+    private TextView lblStatus = null;
+    private TextView lblScannedId = null;
     private Button btnUpdateCustomerStamp = null;
+    private TextView lblGiveCustomerStampInstructions = null;
+    private Button btnGiveCustomerStamp = null;
     private View mProgressView;
     private View mControlBody;
 
@@ -61,17 +59,31 @@ public class QRScannerActivity extends ActionBarActivity {
         SharedPreferences mSettings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         UserId = mSettings.getString(getString(R.string.SHARE_PREF_UserId), "00000000-0000-0000-0000-000000000000");
 
+        //INTENT
+        Intent intent = getIntent();
+        ScanType = intent.getStringExtra(getString(R.string.EXTRA_QR_Scanner_Mode));
+        StoreStampId = intent.getStringExtra(getString(R.string.EXTRA_StampDetail_Id));
+
         //CONTROL INITIALIZATION
         mProgressView = findViewById(R.id.login_progress);
         mControlBody = findViewById(R.id.dvStampListBody);
-        lblCustomerStampId = (TextView)findViewById(R.id.lblCustomerStampId);
+        lblStatus = (TextView)findViewById(R.id.lblStatus);
+        lblScannedId = (TextView)findViewById(R.id.lblCustomerStampId);
         TextView lblScannerLabel = (TextView)findViewById(R.id.lblScannerLabel);
         TextView lblStampScannerInstructions = (TextView)findViewById(R.id.lblStampScannerInstructions);
         btnUpdateCustomerStamp = (Button)findViewById(R.id.btnUpdateCustomerStamp);
         btnUpdateCustomerStamp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                StampCustomerStamp(lblCustomerStampId.getText().toString());
+                StampCustomerStamp(lblScannedId.getText().toString());
+            }
+        });
+        lblGiveCustomerStampInstructions = (TextView)findViewById(R.id.lblGiveCustomerStampInstructions);
+        btnGiveCustomerStamp = (Button)findViewById(R.id.btnGiveCustomerStamp);
+        btnGiveCustomerStamp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GiveCustomerStampSet(lblScannedId.getText().toString());
             }
         });
         Button btnBackToList = (Button)findViewById(R.id.btnBackToList);
@@ -82,23 +94,26 @@ public class QRScannerActivity extends ActionBarActivity {
             }
         });
 
-        //INTENT
-        Intent intent = getIntent();
-        ScanType = intent.getStringExtra(getString(R.string.EXTRA_QR_Scanner_Mode));
         lblScannerLabel.setText("Scanned " + ScanType + " ID:");
         if(ScanType.equals("Stamp")) {
             btnUpdateCustomerStamp.setVisibility(View.VISIBLE);
             lblStampScannerInstructions.setVisibility(View.VISIBLE);
+        } else if (ScanType.equals("Customer")){
+            btnGiveCustomerStamp.setVisibility(View.VISIBLE);
+            lblGiveCustomerStampInstructions.setVisibility(View.VISIBLE);
         }
 
-        //INITIALIZE SCANNER APP
-        integrator = new IntentIntegrator(QRScannerActivity.this);
-        integrator.addExtra("SCAN_WIDTH", 640);
-        integrator.addExtra("SCAN_HEIGHT", 480);
-        integrator.addExtra("SCAN_MODE", "QR_CODE_MODE");
-        //customize the prompt message before scanning
-        integrator.addExtra("PROMPT_MESSAGE", "Scanner Start!");
-        integrator.initiateScan(IntentIntegrator.QR_CODE_TYPES);
+
+        if(lblScannedId.getText().length() == 0) {
+            //INITIALIZE SCANNER APP
+            integrator = new IntentIntegrator(QRScannerActivity.this);
+            integrator.addExtra("SCAN_WIDTH", 640);
+            integrator.addExtra("SCAN_HEIGHT", 480);
+            integrator.addExtra("SCAN_MODE", "QR_CODE_MODE");
+            //customize the prompt message before scanning
+            integrator.addExtra("PROMPT_MESSAGE", "Scanner Start!");
+            integrator.initiateScan(IntentIntegrator.QR_CODE_TYPES);
+        }
     }
 
 
@@ -155,13 +170,13 @@ public class QRScannerActivity extends ActionBarActivity {
 
                 try {
                     cStampId = UUID.fromString(contents);
-                    lblCustomerStampId.setText(contents);
+                    lblScannedId.setText(contents);
                 }
                 catch(Exception ex){
-                    lblCustomerStampId.setText("Invalid QR Code scanned!");
+                    lblScannedId.setText("Invalid QR Code scanned!");
                 }
             } else {
-                lblCustomerStampId.setText("---");
+                lblScannedId.setText("---");
             }
         }
     }
@@ -205,10 +220,14 @@ public class QRScannerActivity extends ActionBarActivity {
 
         private final String mCustomerStampId;
         private final String mUserId;
+        private final Context mContext;
+        private String responseMessage;
 
-        CustomerStampTask(String customerStampId, String userId) {
+        CustomerStampTask(String customerStampId, String userId, Context context) {
             mCustomerStampId = customerStampId;
             mUserId = userId;
+            mContext = context;
+            responseMessage = "";
         }
 
         @Override
@@ -216,7 +235,6 @@ public class QRScannerActivity extends ActionBarActivity {
             // TODO: attempt authentication against a network service.
 
             Boolean loginSuccess = false;
-            String apiMessage = "";
 
             JSONObject jsonResponse = null;
             JSONObject jsonParam = new JSONObject();
@@ -231,8 +249,7 @@ public class QRScannerActivity extends ActionBarActivity {
                 if (jsonResponse != null) {
 
                     String strSuccess = jsonResponse.getString("success");
-                    apiMessage = jsonResponse.getString("responseMessage");
-                    Toast.makeText(getBaseContext(), apiMessage, Toast.LENGTH_SHORT).show();
+                    responseMessage = jsonResponse.getString("responseMessage");
 
                     if (strSuccess == "true") {
                         loginSuccess = true;
@@ -253,7 +270,93 @@ public class QRScannerActivity extends ActionBarActivity {
             mTask = null;
             showProgress(false);
 
-            finish();
+            if(responseMessage != null && !responseMessage.isEmpty())
+                Toast.makeText(getBaseContext(), responseMessage, Toast.LENGTH_SHORT).show();
+
+            if(success == true){
+                lblStatus.setText("Process has completed successfully!");
+            }
+            else {
+                lblStatus.setText("Process has failed!");
+            }
+
+            //finish();
+        }
+
+        @Override
+        protected void onCancelled() {
+            mTask = null;
+            showProgress(false);
+        }
+    }
+    public class CustomerStampSetTask extends AsyncTask<Void, Void, Boolean> {
+
+        private final String mCustomerId;
+        private final String mStoreStampSetId;
+        private final String mUserId;
+        private final Context mContext;
+        private String responseMessage;
+
+        CustomerStampSetTask(String customerId, String storeStampSetId, String userId, Context context) {
+            mCustomerId = customerId;
+            mStoreStampSetId = storeStampSetId;
+            mUserId = userId;
+            mContext = context;
+            responseMessage = "";
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            // TODO: attempt authentication against a network service.
+
+            Boolean loginSuccess = false;
+
+            JSONObject jsonResponse = null;
+            JSONObject jsonParam = new JSONObject();
+
+            try {
+
+                Common comm = new Common();
+                comm.setAPIURL(getString(R.string.AloopyAPIURL));
+                jsonResponse = comm.PostAPI(jsonParam, "/aloopy/customerstampset/?storeStampId=" + mStoreStampSetId
+                        + "&customerId=" + mCustomerId + "&mercUserId=" + mUserId);
+
+
+                if (jsonResponse != null) {
+
+                    String strSuccess = jsonResponse.getString("success");
+                    responseMessage = jsonResponse.getString("responseMessage");
+
+                    if (strSuccess == "true") {
+                        loginSuccess = true;
+                    }
+                }
+
+            }
+            catch (Exception ex) {
+                String message = ex.getMessage();
+            }
+
+            // TODO: register the new account here.
+            return loginSuccess;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mTask = null;
+            showProgress(false);
+
+            if(responseMessage != null && !responseMessage.isEmpty())
+                Toast.makeText(getBaseContext(), responseMessage, Toast.LENGTH_SHORT).show();
+
+            if(success == true){
+                lblStatus.setText("Process has completed successfully!");
+            }
+            else {
+                lblStatus.setText("Process has failed!\r\n\r\n" + responseMessage);
+            }
+
+            //finish();
         }
 
         @Override
@@ -264,19 +367,14 @@ public class QRScannerActivity extends ActionBarActivity {
     }
 
 
-
     //METHODS
     public void callCustomerStampTask(String customerStampTask) {
         if (mTask != null) {
             return;
         }
 
-
-        boolean cancel = false;
-        View focusView = null;
-
         showProgress(true);
-        mTask = new CustomerStampTask(customerStampTask, UserId);
+        mTask = new CustomerStampTask(customerStampTask, UserId, getBaseContext());
         mTask.execute((Void) null);
 
     }
@@ -306,6 +404,47 @@ public class QRScannerActivity extends ActionBarActivity {
         {
             message = getString(R.string.message_Internet_Required);
         }
+
+        return message;
+    }
+
+    public void callCustomerStampSetTask(String customerId) {
+        if (mStampSetTask != null) {
+            return;
+        }
+
+        showProgress(true);
+        mStampSetTask = new CustomerStampSetTask(customerId, StoreStampId, UserId, getBaseContext());
+        mStampSetTask.execute((Void) null);
+
+    }
+    private String GiveCustomerStampSet(String customerId)
+    {
+        String message = "";
+        UUID cStampId = null;
+
+        if(Common.GetInternetConnectivity((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE))) {
+
+            try {
+                //CHECK GUID FORMAT
+                cStampId = UUID.fromString(customerId);
+
+                //ACCESS API
+                callCustomerStampSetTask(customerId);
+
+            }
+            catch (IllegalArgumentException argEx) {
+                message = getString(R.string.message_InvalidCustomerStampID);
+            }
+            catch (Exception ex) {
+                message = getString(R.string.message_unexpected_error);
+            }
+        }
+        else
+        {
+            message = getString(R.string.message_Internet_Required);
+        }
+
 
         return message;
     }

@@ -3,4 +3,26 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:textSize="14dp"
+        android:id="@+id/lblGiveCustomerStampInstructions"
+        android:visibility="gone"
+        android:text="@string/lblGiveCustomerStampInstructions"/>
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnScanCustomerQR"
+        android:text="@string/btnScanCustomerQR"/>
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnBackToList"
+        android:layout_marginTop="10dp"
+        android:text="@string/btnBackToList"/>
+
 </LinearLayout>

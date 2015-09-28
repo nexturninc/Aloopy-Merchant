@@ -35,6 +35,21 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/lblStatusLabel"
+            android:text="@string/lblStatusLabel"
+            android:layout_marginTop="10dp"
+            android:textSize="14dp"/>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lblStatus"
+            android:text="---"
+            android:textSize="20dp"/>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:textSize="14dp"
             android:id="@+id/lblStampScannerInstructions"
@@ -46,6 +61,21 @@
             android:id="@+id/btnUpdateCustomerStamp"
             android:visibility="gone"
             android:text="@string/btnUpdateCustomerStamp"/>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:textSize="14dp"
+            android:id="@+id/lblGiveCustomerStampInstructions"
+            android:visibility="gone"
+            android:text="@string/lblGiveCustomerStampInstructions"/>
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnGiveCustomerStamp"
+            android:visibility="gone"
+            android:text="@string/btnGiveCustomerStamp"/>
 
         <Button
             android:layout_width="fill_parent"
