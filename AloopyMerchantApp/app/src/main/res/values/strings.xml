@@ -30,6 +30,9 @@
     <string name="btnGiveCustomerStamp">Give Customer Stamp Set</string>
     <string name="lblGiveCustomerStampInstructions">Click on the button below to give scanned Customer a Stamp Card:</string>
     <string name="lblStatusLabel">Process Status:</string>
+    <string name="lblStampScanCustomerQRInstructions">Click on the button below to scan a Customer\'s QR Code and give them a Stamp Set.</string>
+    <string name="lblCustomerStampSetsLabel">Customer Stamp Sets</string>
+    <string name="lblCompletedStampSetsLabel">Completed Stamp Sets</string>
 
 
 </resources>

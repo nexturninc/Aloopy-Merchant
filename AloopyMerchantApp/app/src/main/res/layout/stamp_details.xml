@@ -1,28 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
+    android:id="@+id/frmBody"
     android:layout_height="match_parent">
 
-    <TextView
+    <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:textSize="14dp"
-        android:id="@+id/lblGiveCustomerStampInstructions"
-        android:visibility="gone"
-        android:text="@string/lblGiveCustomerStampInstructions"/>
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
 
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnScanCustomerQR"
-        android:text="@string/btnScanCustomerQR"/>
+        <ImageView
+            android:id="@+id/imgMerchantLogo"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/MerchantLogoAlt"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp">
+        </ImageView>
 
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnBackToList"
-        android:layout_marginTop="10dp"
-        android:text="@string/btnBackToList"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/lblStampLabel"
+            android:layout_marginLeft="10dp"
+            android:text="---"
+            android:textSize="24dp"/>
 
-</LinearLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_centerHorizontal="true"
+                android:weightSum="10">
+
+
+                <LinearLayout
+                    android:id="@+id/dvStampBar"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="7">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="14dp"
+                        android:text="@string/lblCustomerStampSetsLabel"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/lblCustomerStampSets"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="20dp"
+                        android:text="0" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="14dp"
+                        android:text="@string/lblCompletedStampSetsLabel"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/lblCompletedStampSets"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="20dp"
+                        android:text="0" />
+
+                </LinearLayout>
+
+                <com.merchant.aloopy.aloopymerchantapp.ProportionalImageView
+                    android:id="@+id/imgRewardImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:layout_weight="7"
+                    />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:id="@+id/imgQRCode"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true" />
+
+        </RelativeLayout>
+
+
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:textSize="14dp"
+            android:id="@+id/lblStampScanCustomerQRInstructions"
+            android:text="@string/lblStampScanCustomerQRInstructions"/>
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnScanCustomerQR"
+            android:text="@string/btnScanCustomerQR"/>
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnBackToList"
+            android:layout_marginTop="5dp"
+            android:text="@string/btnBackToList"/>
+
+    </LinearLayout>
+</ScrollView>
