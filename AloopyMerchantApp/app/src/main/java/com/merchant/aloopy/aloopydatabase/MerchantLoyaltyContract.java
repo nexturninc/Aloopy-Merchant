@@ -7,6 +7,16 @@ import android.provider.BaseColumns;
  */
 public class MerchantLoyaltyContract {
 
+    public String LoyaltyId;
+    public String Title;
+    public Integer Volume;
+    public String DateExpiration;
+    public String CardPrice;
+    public String LoyaltyCardImage;
+    public String LoyaltyCardQR;
+    public String DateCreated;
+    public String DateModified;
+
     public MerchantLoyaltyContract(){
 
     }
@@ -34,7 +44,7 @@ public class MerchantLoyaltyContract {
         public static final String COLUMN_NAME_Loyalty_ID = "LoyaltyId";
         public static final String COLUMN_NAME_Title = "Title";
         public static final String COLUMN_NAME_Volume = "Volume";
-        public static final String COLUMN_NAME_Date_Expiration = "DateExpriation";
+        public static final String COLUMN_NAME_Date_Expiration = "DateExpiration";
         public static final String COLUMN_NAME_Card_Price = "CardPrice";
         public static final String COLUMN_NAME_Loyalty_Card_Image = "LoyaltyCardImage";
         public static final String COLUMN_NAME_Loyalty_Card_QR = "LoyaltyCardQR";
