@@ -46,7 +46,7 @@ public class LoyaltyList extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        final View rootView = inflater.inflate(R.layout.stamp_list, container, false);
+        final View rootView = inflater.inflate(R.layout.loyalty_list, container, false);
 
 
 
