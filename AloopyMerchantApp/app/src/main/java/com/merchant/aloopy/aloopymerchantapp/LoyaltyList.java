@@ -6,17 +6,23 @@ import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.merchant.aloopy.aloopydatabase.AloopySQLHelper;
 import com.merchant.aloopy.aloopydatabase.MerchantLoyaltyContract;
@@ -48,6 +54,27 @@ public class LoyaltyList extends Fragment {
 
         final View rootView = inflater.inflate(R.layout.loyalty_list, container, false);
 
+        //GET SHARED PREFERENCES
+        SharedPreferences mSettings = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
+        UserID = mSettings.getString(getActivity().getString(R.string.SHARE_PREF_UserId), null);
+        MerchantId = mSettings.getString(getActivity().getString(R.string.SHARE_PREF_MerchantId), null);
+
+
+        //CONTROLS
+        mProgressBar = ((ProgressBar)rootView.findViewById(R.id.login_progress));
+        mStampListBody = (rootView.findViewById(R.id.dvLoyaltyListBody));
+        gridview = (GridView)rootView.findViewById(R.id.gvLoyaltyList);
+        Button btnRefresh = (Button)rootView.findViewById(R.id.btnRefresh);
+        btnRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GetLoyaltyCards(true);
+            }
+        });
+
+
+
+        GetLoyaltyCards(false);
 
 
         return rootView;
@@ -57,6 +84,85 @@ public class LoyaltyList extends Fragment {
         LoyaltyList fragment = new LoyaltyList();
 
         return fragment;
+    }
+
+    public void GetLoyaltyCards(boolean forceAPIQuery) {
+
+        if (mTask != null) {
+            return;
+        }
+
+        showProgress(true);
+
+        AloopySQLHelper helper = AloopySQLHelper.getInstance(this.getActivity());
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        //GET DATA FROM DB
+        String[] projection = {
+                MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Loyalty_ID,
+                MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Title,
+                MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Volume,
+                MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Date_Expiration,
+                MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Card_Price,
+                MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Loyalty_Card_Image,
+                MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Loyalty_Card_QR,
+                MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Date_Created,
+                MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Date_Modified
+        };
+
+        Cursor c = db.query(
+                MerchantLoyaltyContract.MerchantLoyaltyInformation.TABLE_NAME,  // The table to query
+                projection,                               // The columns to return
+                null,                                // The columns for the WHERE clause
+                null,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                null                                 // The sort order
+        );
+
+        if(forceAPIQuery &&
+                !Common.GetInternetConnectivity((ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE))) {
+            showProgress(false);
+            Toast.makeText(getActivity().getBaseContext(), getString(R.string.message_Internet_Required), Toast.LENGTH_SHORT).show();
+        }
+        else {
+            if (forceAPIQuery
+                    || (Common.GetInternetConnectivity((ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE)))
+                    && c.getCount() == 0) {
+
+                //GET FROM API
+
+                mTask = new LoyaltyTask(MerchantId);
+                mTask.execute((Void) null);
+
+            }
+            else //GET FROM DATABASE
+            {
+
+                loyaltyData = new ArrayList<MerchantLoyaltyContract>();
+
+                while (c.moveToNext()) {
+
+                    MerchantLoyaltyContract loyaltyItem = new MerchantLoyaltyContract();
+                    loyaltyItem.LoyaltyId = c.getString(c.getColumnIndexOrThrow(MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Loyalty_ID));
+                    loyaltyItem.Title = c.getString(c.getColumnIndexOrThrow(MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Title));
+                    loyaltyItem.Volume = c.getInt(c.getColumnIndexOrThrow(MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Volume));
+                    loyaltyItem.CardPrice = c.getString(c.getColumnIndexOrThrow(MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Card_Price));
+                    loyaltyItem.DateExpiration = c.getString(c.getColumnIndexOrThrow(MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Date_Expiration));
+                    loyaltyItem.LoyaltyCardImage = c.getString(c.getColumnIndexOrThrow(MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Loyalty_Card_Image));
+                    loyaltyItem.LoyaltyCardQR = c.getString(c.getColumnIndexOrThrow(MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Loyalty_Card_QR));
+                    loyaltyItem.DateCreated = c.getString(c.getColumnIndexOrThrow(MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Date_Created));
+                    loyaltyItem.DateModified = c.getString(c.getColumnIndexOrThrow(MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Date_Modified));
+
+                    loyaltyData.add(loyaltyItem);
+                }
+
+                loyaltyAdapter = new LoyaltyAdapter(getActivity(), R.layout.loyalty_row, loyaltyData);
+                gridview.setAdapter(loyaltyAdapter);
+
+                showProgress(false);
+            }
+        }
     }
 
 
@@ -191,7 +297,6 @@ public class LoyaltyList extends Fragment {
             showProgress(false);
         }
     }
-
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     public void showProgress(final boolean show) {

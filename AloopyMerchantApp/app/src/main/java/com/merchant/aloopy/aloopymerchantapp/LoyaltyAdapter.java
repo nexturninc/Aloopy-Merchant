@@ -1,15 +1,15 @@
 package com.merchant.aloopy.aloopymerchantapp;
 
+import android.app.Activity;
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.merchant.aloopy.aloopydatabase.MerchantLoyaltyContract;
-import com.merchant.aloopy.aloopydatabase.MerchantStampInfoContract;
 
 import java.util.ArrayList;
 
@@ -48,31 +48,47 @@ public class LoyaltyAdapter extends ArrayAdapter<MerchantLoyaltyContract> {
         LoyaltyItem holder = null;
 
         if (row == null) {
+            LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+            row = inflater.inflate(layoutResourceId, parent, false);
 
+            holder = new LoyaltyItem();
+            holder.LoyaltyId = (TextView) row.findViewById(R.id.lblLoyaltyId);
+            holder.Title = (TextView) row.findViewById(R.id.lblLoyaltyTitle);
+            holder.Volume = (TextView) row.findViewById(R.id.lblVolume);
+            holder.CardPrice = (TextView) row.findViewById(R.id.lblCardPrice);
+            holder.DateExpiration = (TextView) row.findViewById(R.id.lblExpiryDate);
+            holder.LoyaltyCardImage = (ImageView) row.findViewById(R.id.imgCard);
+            holder.LoyaltyQRCode = (ImageView) row.findViewById(R.id.imgQRCode);
+
+            row.setTag(holder);
+        } else {
+            holder = (LoyaltyItem) row.getTag();
         }
+
+        MerchantLoyaltyContract item = data.get(position);
+        holder.LoyaltyId.setText(item.LoyaltyId);
+        holder.Title.setText(item.Title);
+        holder.Volume.setText(String.valueOf(item.Volume));
+        holder.DateExpiration.setText(item.DateExpiration);
+
+        if (item.LoyaltyCardImage != null && item.LoyaltyCardImage != "")
+            Common.getImageLoader(null).displayImage(item.LoyaltyCardImage, holder.LoyaltyCardImage);
+        if (item.LoyaltyCardQR != null && item.LoyaltyCardQR != "")
+            Common.getImageLoader(null).displayImage(item.LoyaltyCardQR, holder.LoyaltyQRCode);
+
 
         return row;
     }
 
     static class LoyaltyItem
     {
-        public TextView StampCount;
-        public TextView StampLabel;
-        public TextView StampSetId;
-        public TextView StampSetTitle;
-        public ImageView StampMerchantLogo;
-        public ImageView StampQRCode;
-        public RelativeLayout StampBody;
+        public TextView LoyaltyId;
+        public TextView Title;
+        public TextView Volume;
+        public TextView CardPrice;
+        public TextView DateExpiration;
+        public ImageView LoyaltyCardImage;
+        public ImageView LoyaltyQRCode;
 
-        public ImageView Stamp1;
-        public ImageView Stamp2;
-        public ImageView Stamp3;
-        public ImageView Stamp4;
-        public ImageView Stamp5;
-        public ImageView Stamp6;
-        public ImageView Stamp7;
-        public ImageView Stamp8;
-        public ImageView Stamp9;
-        public ImageView Stamp10;
     }
 }

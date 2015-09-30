@@ -59,16 +59,16 @@ public class StampList extends Fragment {
 
         final View rootView = inflater.inflate(R.layout.stamp_list, container, false);
 
-        mProgressBar = ((ProgressBar)rootView.findViewById(R.id.login_progress));
-        mStampListBody = (rootView.findViewById(R.id.dvStampListBody));
-        Button btnRefresh = (Button)rootView.findViewById(R.id.btnRefresh);
-        Button btnScanQR = (Button)rootView.findViewById(R.id.btnScanCustomerStamp);
-
-
         //GET SHARED PREFERENCES
         SharedPreferences mSettings = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
         UserID = mSettings.getString(getActivity().getString(R.string.SHARE_PREF_UserId), null);
         MerchantId = mSettings.getString(getActivity().getString(R.string.SHARE_PREF_MerchantId), null);
+
+        //CONTROLS
+        mProgressBar = ((ProgressBar)rootView.findViewById(R.id.login_progress));
+        mStampListBody = (rootView.findViewById(R.id.dvStampListBody));
+        Button btnRefresh = (Button)rootView.findViewById(R.id.btnRefresh);
+        Button btnScanQR = (Button)rootView.findViewById(R.id.btnScanCustomerStamp);
 
         gridview = (GridView)rootView.findViewById(R.id.gvStampList);
 
