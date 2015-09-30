@@ -17,6 +17,9 @@ import com.merchant.aloopy.aloopydatabase.AloopySQLHelper;
 import com.merchant.aloopy.aloopydatabase.MerchantStampInfoContract;
 import com.merchant.aloopy.aloopymerchantapp.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by imbisibol on 9/21/2015.
  */
@@ -25,6 +28,7 @@ public class StampDetails extends ActionBarActivity {
     String storeStampID = null;
 
     TextView lblStampLabel;
+    TextView lblStampDateRange;
     TextView lblCustomerStampSets;
     TextView lblCompletedStampSets;
     TextView lblStampScanCustomerQRInstructions;
@@ -45,6 +49,7 @@ public class StampDetails extends ActionBarActivity {
 
         //CONTROLS
         lblStampLabel = (TextView)findViewById(R.id.lblStampLabel);
+        lblStampDateRange = (TextView)findViewById(R.id.lblStampDateRange);
         lblCustomerStampSets = (TextView)findViewById(R.id.lblCustomerStampSets);
         lblCompletedStampSets = (TextView)findViewById(R.id.lblCompletedStampSets);
         lblStampScanCustomerQRInstructions = (TextView)findViewById(R.id.lblStampScanCustomerQRInstructions);
@@ -138,6 +143,21 @@ public class StampDetails extends ActionBarActivity {
                 lblStampLabel.setTextColor(Integer.parseInt(textColor, 16) + 0xFF000000);
                 lblStampScanCustomerQRInstructions.setTextColor(Integer.parseInt(textColor, 16) + 0xFF000000);
             }
+
+            SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
+            SimpleDateFormat destFormat = new SimpleDateFormat("MM-dd-yyyy");
+            Date dateItem;
+            String startDate = "";
+            String endDate = "";
+            try {
+                dateItem = formatter.parse(c.getString(c.getColumnIndexOrThrow(MerchantStampInfoContract.MerchantStampInformation.COLUMN_NAME_Start_Date)).replace('.', '-'));
+                startDate = destFormat.format(dateItem);
+
+                dateItem = formatter.parse(c.getString(c.getColumnIndexOrThrow(MerchantStampInfoContract.MerchantStampInformation.COLUMN_NAME_End_Date)).replace('.', '-'));
+                endDate = destFormat.format(dateItem);
+            }
+            catch(Exception ex){}
+            lblStampDateRange.setText(startDate + " - " + endDate);
         }
 
     }
