@@ -16,17 +16,23 @@
         android:textSize="20dp"
         android:text="---"/>
 
-
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="10dp"
+        android:id="@+id/lblGiveCustomerLoyaltyInstructions"
         android:text="@string/lblGiveCustomerLoyaltyInstructions"/>
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/btnScanCustomerQR"
         android:id="@+id/btnGiveCustomerLoyalty"/>
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btnSaveCustomerLoyalty"
+        android:id="@+id/btnSaveCustomerLoyalty"/>
 
 </LinearLayout>

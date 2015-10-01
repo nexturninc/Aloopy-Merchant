@@ -26,8 +26,11 @@ import java.util.UUID;
  */
 public class LoyaltyDetails extends ActionBarActivity {
 
-    public String loyaltyID;
-    public TextView lblScannedId;
+    String loyaltyID;
+    TextView lblScannedId;
+    TextView lblGiveCustomerLoyaltyInstructions;
+    Button btnGiveCustomerLoyalty;
+    Button btnSaveCustomerLoyalty;
 
     private IntentIntegrator integrator = null;
 
@@ -43,7 +46,8 @@ public class LoyaltyDetails extends ActionBarActivity {
 
         //CONTROLS
         lblScannedId = (TextView)findViewById(R.id.lblScannedID);
-        Button btnGiveCustomerLoyalty = (Button)findViewById(R.id.btnGiveCustomerLoyalty);
+        lblGiveCustomerLoyaltyInstructions = (TextView)findViewById(R.id.lblGiveCustomerStampInstructions);
+        btnGiveCustomerLoyalty = (Button)findViewById(R.id.btnGiveCustomerLoyalty);
         btnGiveCustomerLoyalty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,7 +65,13 @@ public class LoyaltyDetails extends ActionBarActivity {
                 }
             }
         });
-
+        btnSaveCustomerLoyalty = (Button)findViewById(R.id.btnSaveCustomerLoyalty);
+        btnSaveCustomerLoyalty.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SaveCustomerLoyalty();
+            }
+        });
 
 
 
@@ -79,6 +89,10 @@ public class LoyaltyDetails extends ActionBarActivity {
                 try {
                     cStampId = UUID.fromString(contents);
                     lblScannedId.setText(contents);
+
+                    lblGiveCustomerLoyaltyInstructions.setVisibility(View.GONE);
+                    btnGiveCustomerLoyalty.setVisibility(View.GONE);
+
                 }
                 catch(Exception ex){
                     lblScannedId.setText("Invalid QR Code scanned!");
@@ -121,6 +135,10 @@ public class LoyaltyDetails extends ActionBarActivity {
         if(c.moveToNext()) {
 
         }
+
+    }
+
+    private void SaveCustomerLoyalty(){
 
     }
 
