@@ -219,6 +219,7 @@ public class LoyaltyList extends Fragment {
                             for(int ctr=0;ctr<loyaltyArray.length();ctr++) {
                                 MerchantLoyaltyContract loyaltyItem = new MerchantLoyaltyContract();
                                 loyaltyItem.LoyaltyId = loyaltyArray.getJSONObject(ctr).getString("id");
+                                loyaltyItem.Title = loyaltyArray.getJSONObject(ctr).getString("title");
                                 loyaltyItem.Volume = loyaltyArray.getJSONObject(ctr).getInt("volume");
                                 loyaltyItem.DateExpiration = loyaltyArray.getJSONObject(ctr).getString("dateExpiration");
                                 loyaltyItem.CardPrice = loyaltyArray.getJSONObject(ctr).getString("cardPrice");
@@ -234,6 +235,7 @@ public class LoyaltyList extends Fragment {
                                 //SAVE TO DATABASE
                                 ContentValues values = new ContentValues();
                                 values.put(MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Loyalty_ID, loyaltyItem.LoyaltyId);
+                                values.put(MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Title, loyaltyItem.Title);
                                 values.put(MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Volume, loyaltyItem.Volume);
                                 values.put(MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Date_Expiration, loyaltyItem.DateExpiration);
                                 values.put(MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Card_Price, loyaltyItem.CardPrice);

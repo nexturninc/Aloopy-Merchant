@@ -7,6 +7,7 @@
     <string name="EXTRA_LoginDisplay_Name">com.merchant.aloopy.aloopymerchantapp.LoginDisplay_Name</string>
     <string name="EXTRA_StampDetail_Id">com.merchant.aloopy.aloopymerchantapp.StoreStampId</string>
     <string name="EXTRA_QR_Scanner_Mode">QRScannerMode</string>
+    <string name="Currency">Php</string>
 
     <string name="message_Internet_Required">This requires an active Internet connection.</string>
     <string name="message_InvalidCustomerStampID">Invalid Customer Stamp ID</string>
