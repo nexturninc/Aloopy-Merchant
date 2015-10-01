@@ -6,6 +6,7 @@ import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -19,6 +20,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ProgressBar;
@@ -63,7 +65,21 @@ public class LoyaltyList extends Fragment {
         //CONTROLS
         mProgressBar = ((ProgressBar)rootView.findViewById(R.id.login_progress));
         mStampListBody = (rootView.findViewById(R.id.dvLoyaltyListBody));
+
         gridview = (GridView)rootView.findViewById(R.id.gvLoyaltyList);
+        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+
+                Toast.makeText(getActivity().getBaseContext(), loyaltyData.get(position).LoyaltyId, Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(getActivity().getBaseContext(), LoyaltyDetails.class);
+                intent.putExtra(getString(R.string.EXTRA_LoyaltyDetail_Id), loyaltyData.get(position).LoyaltyId);
+                startActivity(intent);
+
+            }
+        });
+
         Button btnRefresh = (Button)rootView.findViewById(R.id.btnRefresh);
         btnRefresh.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -6,6 +6,7 @@
     <string name="SHARE_PREF_MerchantType">MerchantType</string>
     <string name="EXTRA_LoginDisplay_Name">com.merchant.aloopy.aloopymerchantapp.LoginDisplay_Name</string>
     <string name="EXTRA_StampDetail_Id">com.merchant.aloopy.aloopymerchantapp.StoreStampId</string>
+    <string name="EXTRA_LoyaltyDetail_Id">com.merchant.aloopy.aloopymerchantapp.LoyaltyId</string>
     <string name="EXTRA_QR_Scanner_Mode">QRScannerMode</string>
     <string name="Currency">Php</string>
 
@@ -23,7 +24,7 @@
 
     <string name="MerchantLogoAlt">Merchant Logo</string>
     <string name="StampRewardImageALT">Stamp Reward</string>
-    <string name="btnScanCustomerStamp">Scan Customer Stamp</string>
+    <string name="btnScanCustomerStamp">Stamp Customer Card</string>
     <string name="btnUpdateCustomerStamp">Update Customer Stamp</string>
     <string name="btnBackToList">Back to List</string>
     <string name="lblStampScannerInstructions">Click on the button below to update the Customer Stamp you scanned. This will give them a new Stamp.</string>
@@ -34,6 +35,7 @@
     <string name="lblStampScanCustomerQRInstructions">Click on the button below to scan a Customer\'s QR Code and give them a Stamp Set.</string>
     <string name="lblCustomerStampSetsLabel">Customer Stamp Sets</string>
     <string name="lblCompletedStampSetsLabel">Completed Stamp Sets</string>
+    <string name="lblGiveCustomerLoyaltyInstructions">Click on the button below to scan a Customer\s QR Code and give them a Loyalty Card.</string>
 
 
 </resources>
