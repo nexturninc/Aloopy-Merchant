@@ -15,7 +15,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/lblLoyaltyTitle"
-                android:textSize="20dp"
+                android:textSize="16dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true" />
 
@@ -23,7 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/lblVolume"
-                android:textSize="12dp"
+                android:textSize="10dp"
                 android:text="0"
                 android:layout_below="@+id/lblLoyaltyTitle"
             />
