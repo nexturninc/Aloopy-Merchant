@@ -68,7 +68,7 @@ public class LoyaltyAdapter extends ArrayAdapter<MerchantLoyaltyContract> {
         MerchantLoyaltyContract item = data.get(position);
         holder.LoyaltyId.setText(item.LoyaltyId);
         holder.Title.setText(item.Title);
-        holder.Volume.setText("AVAILABLE: " + String.valueOf(item.Volume));
+        holder.Volume.setText("AVAILABLE: " + String.valueOf(item.Volume - item.CustomerCardCount));
         holder.DateExpiration.setText(item.DateExpiration.substring(0, item.DateExpiration.indexOf("T")));
         holder.CardPrice.setText(getContext().getString(R.string.Currency) + item.CardPrice);
 

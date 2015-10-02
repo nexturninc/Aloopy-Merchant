@@ -122,6 +122,7 @@ public class LoyaltyList extends Fragment {
                 MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Card_Price,
                 MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Loyalty_Card_Image,
                 MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Loyalty_Card_QR,
+                MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Customer_Card_Count,
                 MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Date_Created,
                 MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Date_Modified
         };
@@ -167,6 +168,7 @@ public class LoyaltyList extends Fragment {
                     loyaltyItem.DateExpiration = c.getString(c.getColumnIndexOrThrow(MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Date_Expiration));
                     loyaltyItem.LoyaltyCardImage = c.getString(c.getColumnIndexOrThrow(MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Loyalty_Card_Image));
                     loyaltyItem.LoyaltyCardQR = c.getString(c.getColumnIndexOrThrow(MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Loyalty_Card_QR));
+                    loyaltyItem.CustomerCardCount = c.getInt(c.getColumnIndexOrThrow(MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Customer_Card_Count));
                     loyaltyItem.DateCreated = c.getString(c.getColumnIndexOrThrow(MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Date_Created));
                     loyaltyItem.DateModified = c.getString(c.getColumnIndexOrThrow(MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Date_Modified));
 
@@ -237,6 +239,7 @@ public class LoyaltyList extends Fragment {
                                 loyaltyItem.LoyaltyId = loyaltyArray.getJSONObject(ctr).getString("id");
                                 loyaltyItem.Title = loyaltyArray.getJSONObject(ctr).getString("title");
                                 loyaltyItem.Volume = loyaltyArray.getJSONObject(ctr).getInt("volume");
+                                loyaltyItem.CustomerCardCount = loyaltyArray.getJSONObject(ctr).getInt("customerCardCount");
                                 loyaltyItem.DateExpiration = loyaltyArray.getJSONObject(ctr).getString("dateExpiration");
                                 loyaltyItem.CardPrice = loyaltyArray.getJSONObject(ctr).getString("cardPrice");
                                 loyaltyItem.LoyaltyCardImage = loyaltyArray.getJSONObject(ctr).getJSONObject("loyaltyCardImage_x3").getString("filePath");
@@ -253,6 +256,7 @@ public class LoyaltyList extends Fragment {
                                 values.put(MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Loyalty_ID, loyaltyItem.LoyaltyId);
                                 values.put(MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Title, loyaltyItem.Title);
                                 values.put(MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Volume, loyaltyItem.Volume);
+                                values.put(MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Customer_Card_Count, loyaltyItem.CustomerCardCount);
                                 values.put(MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Date_Expiration, loyaltyItem.DateExpiration);
                                 values.put(MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Card_Price, loyaltyItem.CardPrice);
                                 values.put(MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Loyalty_Card_Image, loyaltyItem.LoyaltyCardImage);

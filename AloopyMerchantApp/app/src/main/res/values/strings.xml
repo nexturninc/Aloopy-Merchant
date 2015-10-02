@@ -37,6 +37,7 @@
     <string name="lblCompletedStampSetsLabel">Completed Stamp Sets</string>
     <string name="lblGiveCustomerLoyaltyInstructions">Click on the button below to scan a Customer\s QR Code and give them a Loyalty Card.</string>
     <string name="btnSaveCustomerLoyalty">Give Customer Loyalty Card</string>
+    <string name="lblLoyaltyProgramDetails">Loyalty Program Details</string>
 
 
 </resources>

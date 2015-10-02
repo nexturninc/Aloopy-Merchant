@@ -14,6 +14,7 @@ public class MerchantLoyaltyContract {
     public String CardPrice;
     public String LoyaltyCardImage;
     public String LoyaltyCardQR;
+    public Integer CustomerCardCount;
     public String DateCreated;
     public String DateModified;
 
@@ -33,6 +34,7 @@ public class MerchantLoyaltyContract {
                     MerchantLoyaltyInformation.COLUMN_NAME_Card_Price + TEXT_TYPE + COMMA_SEP +
                     MerchantLoyaltyInformation.COLUMN_NAME_Loyalty_Card_Image + TEXT_TYPE + COMMA_SEP +
                     MerchantLoyaltyInformation.COLUMN_NAME_Loyalty_Card_QR + TEXT_TYPE + COMMA_SEP +
+                    MerchantLoyaltyInformation.COLUMN_NAME_Customer_Card_Count + TEXT_TYPE + COMMA_SEP +
                     MerchantLoyaltyInformation.COLUMN_NAME_Date_Created + TEXT_TYPE + COMMA_SEP +
                     MerchantLoyaltyInformation.COLUMN_NAME_Date_Modified + TEXT_TYPE +
                     " )";
@@ -48,6 +50,7 @@ public class MerchantLoyaltyContract {
         public static final String COLUMN_NAME_Card_Price = "CardPrice";
         public static final String COLUMN_NAME_Loyalty_Card_Image = "LoyaltyCardImage";
         public static final String COLUMN_NAME_Loyalty_Card_QR = "LoyaltyCardQR";
+        public static final String COLUMN_NAME_Customer_Card_Count = "CustomerCardCount";
         public static final String COLUMN_NAME_Date_Created = "DateCreated";
         public static final String COLUMN_NAME_Date_Modified = "DateModified";
     }
