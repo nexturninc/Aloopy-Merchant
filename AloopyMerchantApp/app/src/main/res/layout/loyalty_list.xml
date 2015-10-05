@@ -39,6 +39,12 @@
         android:layout_marginTop="5dp"
         android:id="@+id/dvLoyaltyListBody">
 
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnScanCustomerLoyalty"
+            android:text="Scan Customer Loyalty Card"/>
+
         <GridView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/gvLoyaltyList"
             android:layout_width="match_parent"

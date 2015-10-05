@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -77,6 +78,7 @@ public class LoyaltyDetails extends ActionBarActivity {
             public void onClick(View v) {
                 if (Common.GetInternetConnectivity((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE))) {
                     //INITIALIZE SCANNER APP
+
                     integrator = new IntentIntegrator(LoyaltyDetails.this);
                     integrator.addExtra("SCAN_WIDTH", 640);
                     integrator.addExtra("SCAN_HEIGHT", 480);
@@ -171,68 +173,29 @@ public class LoyaltyDetails extends ActionBarActivity {
                         JSONArray loyaltyArray = jsonResponse.getJSONArray("loyaltyCards");
                         loginSuccess = true;
 
-                        if(loyaltyArray != null) {
+                        AloopySQLHelper helper = AloopySQLHelper.getInstance(getBaseContext());
+                        SQLiteDatabase db = helper.getWritableDatabase();
 
-                            /*
-                            loyaltyData = new ArrayList<MerchantLoyaltyContract>();
+                        if (loyaltyArray != null && loyaltyArray.length() > 0) {
 
-                            Context cont = getActivity().getBaseContext();
+                            ContentValues values = new ContentValues();
+                            values.put(MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Volume,
+                                    loyaltyArray.getJSONObject(0).getInt(MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Volume));
 
-                            // Gets the data repository in write mode
-                            AloopySQLHelper helper = AloopySQLHelper.getInstance(getActivity());
-                            SQLiteDatabase db = helper.getWritableDatabase();
-                            try {
-                                db.delete(MerchantLoyaltyContract.MerchantLoyaltyInformation.TABLE_NAME, null, null);
-                            }
-                            catch (Exception ex)
-                            {
+                            db.update(MerchantLoyaltyContract.MerchantLoyaltyInformation.TABLE_NAME,
+                                    values,
+                                    MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Loyalty_ID + "=" + loyaltyArray.getJSONObject(0).getString(MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Loyalty_ID),
+                                    null);
 
-                            }
-
-                            for(int ctr=0;ctr<loyaltyArray.length();ctr++) {
-                                MerchantLoyaltyContract loyaltyItem = new MerchantLoyaltyContract();
-                                loyaltyItem.LoyaltyId = loyaltyArray.getJSONObject(ctr).getString("id");
-                                loyaltyItem.Title = loyaltyArray.getJSONObject(ctr).getString("title");
-                                loyaltyItem.Volume = loyaltyArray.getJSONObject(ctr).getInt("volume");
-                                loyaltyItem.DateExpiration = loyaltyArray.getJSONObject(ctr).getString("dateExpiration");
-                                loyaltyItem.CardPrice = loyaltyArray.getJSONObject(ctr).getString("cardPrice");
-                                loyaltyItem.LoyaltyCardImage = loyaltyArray.getJSONObject(ctr).getJSONObject("loyaltyCardImage_x3").getString("filePath");
-                                loyaltyItem.LoyaltyCardQR = loyaltyArray.getJSONObject(ctr).getJSONObject("loyaltyCardQRCode_x3").getString("filePath");
-                                loyaltyItem.DateCreated = loyaltyArray.getJSONObject(ctr).getString("dateCreated");
-                                loyaltyItem.DateModified = loyaltyArray.getJSONObject(ctr).getString("dateModified");
-
-
-                                loyaltyData.add(loyaltyItem);
-
-
-                                //SAVE TO DATABASE
-                                ContentValues values = new ContentValues();
-                                values.put(MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Loyalty_ID, loyaltyItem.LoyaltyId);
-                                values.put(MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Title, loyaltyItem.Title);
-                                values.put(MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Volume, loyaltyItem.Volume);
-                                values.put(MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Date_Expiration, loyaltyItem.DateExpiration);
-                                values.put(MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Card_Price, loyaltyItem.CardPrice);
-                                values.put(MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Loyalty_Card_Image, loyaltyItem.LoyaltyCardImage);
-                                values.put(MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Loyalty_Card_QR, loyaltyItem.LoyaltyCardQR);
-                                values.put(MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Date_Created, loyaltyItem.DateCreated);
-                                values.put(MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Date_Modified, loyaltyItem.DateModified);
-
-
-                                long newRowId;
-                                newRowId = db.insert(
-                                        MerchantLoyaltyContract.MerchantLoyaltyInformation.TABLE_NAME,
-                                        MerchantLoyaltyContract.MerchantLoyaltyInformation.COLUMN_NAME_Loyalty_ID,
-                                        values);
-                            }
-
-
-                            db.close();
-*/
                         }
 
 
-                        loginSuccess = true;
+                        db.close();
+
                     }
+
+
+                        loginSuccess = true;
                 }
 
             } catch (Exception ex) {

@@ -1,143 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="10dp">
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:text="@string/lblLoyaltyProgramDetails"/>
-
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:orientation="vertical">
 
-        <RelativeLayout
+        <TextView
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text="@string/lblLoyaltyProgramDetails"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/lblLoyaltyTitle"
-                android:textSize="16dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/lblVolume"
-                android:textSize="10dp"
-                android:text="0"
-                android:layout_below="@+id/lblLoyaltyTitle"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/lblCardPrice"
-                android:textSize="20dp"
-                android:text="---"
-                android:layout_alignParentEnd="true"/>
-        </RelativeLayout>
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="horizontal"
-            android:weightSum="10">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <com.merchant.aloopy.aloopymerchantapp.ProportionalImageView
+            <RelativeLayout
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/imgCard"
-                android:layout_weight="6" />
+                android:layout_height="wrap_content">
 
-            <com.merchant.aloopy.aloopymerchantapp.ProportionalImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:id="@+id/imgQRCode"
-                android:layout_weight="4"
-                android:layout_marginLeft="5dp"
-                android:background="@color/abc_input_method_navigation_guard"
-                android:padding="1dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lblLoyaltyTitle"
+                    android:textSize="16dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lblVolume"
+                    android:textSize="10dp"
+                    android:text="0"
+                    android:layout_below="@+id/lblLoyaltyTitle"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lblCardPrice"
+                    android:textSize="20dp"
+                    android:text="---"
+                    android:layout_alignParentEnd="true"/>
+            </RelativeLayout>
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="horizontal"
+                android:weightSum="10">
 
+                <com.merchant.aloopy.aloopymerchantapp.ProportionalImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imgCard"
+                    android:layout_weight="6" />
+
+                <com.merchant.aloopy.aloopymerchantapp.ProportionalImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:id="@+id/imgQRCode"
+                    android:layout_weight="4"
+                    android:layout_marginLeft="5dp"
+                    android:background="@color/abc_input_method_navigation_guard"
+                    android:padding="1dp"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Valid until "
+                    android:textSize="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="---"
+                    android:id="@+id/lblExpiryDate"
+                    android:textStyle="bold"
+                    android:textSize="10dp"/>
+
+            </LinearLayout>
         </LinearLayout>
-        <LinearLayout
+
+        <TextView
+            android:layout_marginTop="20dp"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:text="Scanned Id:"
+            android:textSize="14dp"/>
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lblScannedID"
+            android:layout_marginLeft="10dp"
+            android:textSize="20dp"
+            android:text="---"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Valid until "
-                android:textSize="10dp"/>
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lblStatusLabel"
+            android:text="@string/lblStatusLabel"
+            android:layout_marginTop="10dp"
+            android:textSize="14dp"/>
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lblStatus"
+            android:layout_marginLeft="10dp"
+            android:text="---"
+            android:textSize="20dp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="---"
-                android:id="@+id/lblExpiryDate"
-                android:textStyle="bold"
-                android:textSize="10dp"/>
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/lblGiveCustomerLoyaltyInstructions"
+            android:text="@string/lblGiveCustomerLoyaltyInstructions"/>
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/btnScanCustomerQR"
+            android:id="@+id/btnGiveCustomerLoyalty"/>
 
-        </LinearLayout>
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="@string/btnSaveCustomerLoyalty"
+            android:id="@+id/btnSaveCustomerLoyalty"/>
+
+        <!-- Login progress -->
+        <ProgressBar android:id="@+id/login_progress" style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp" android:visibility="gone" />
+
     </LinearLayout>
-
-    <TextView
-        android:layout_marginTop="20dp"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Scanned Id:"
-        android:textSize="14dp"/>
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/lblScannedID"
-        android:layout_marginLeft="10dp"
-        android:textSize="20dp"
-        android:text="---"/>
-
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/lblStatusLabel"
-        android:text="@string/lblStatusLabel"
-        android:layout_marginTop="10dp"
-        android:textSize="14dp"/>
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/lblStatus"
-        android:layout_marginLeft="10dp"
-        android:text="---"
-        android:textSize="20dp"/>
-
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="10dp"
-        android:id="@+id/lblGiveCustomerLoyaltyInstructions"
-        android:text="@string/lblGiveCustomerLoyaltyInstructions"/>
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/btnScanCustomerQR"
-        android:id="@+id/btnGiveCustomerLoyalty"/>
-
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:text="@string/btnSaveCustomerLoyalty"
-        android:id="@+id/btnSaveCustomerLoyalty"/>
-
-    <!-- Login progress -->
-    <ProgressBar android:id="@+id/login_progress" style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp" android:visibility="gone" />
-
-</LinearLayout>
+</ScrollView>

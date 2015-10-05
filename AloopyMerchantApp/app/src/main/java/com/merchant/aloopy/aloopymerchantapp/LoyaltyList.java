@@ -26,6 +26,8 @@ import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.merchant.aloopy.aloopydatabase.AloopySQLHelper;
 import com.merchant.aloopy.aloopydatabase.MerchantLoyaltyContract;
 
@@ -33,6 +35,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * Created by imbisibol on 9/30/2015.
@@ -48,6 +51,8 @@ public class LoyaltyList extends Fragment {
     private View mStampListBody;
     private LoyaltyTask mTask = null;
     public LoyaltyAdapter loyaltyAdapter;
+
+    private IntentIntegrator integrator = null;
 
 
     @Nullable
@@ -88,7 +93,15 @@ public class LoyaltyList extends Fragment {
             }
         });
 
-
+        Button btnScanCustomerLoyalty = (Button)rootView.findViewById(R.id.btnScanCustomerLoyalty);
+        btnScanCustomerLoyalty.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity().getBaseContext(), LoyaltyCustomerDetails.class);
+                //newIntent.putExtra(getString(R.string.EXTRA_LoyaltyDetail_Id), contents);
+                startActivity(intent);
+            }
+        });
 
         GetLoyaltyCards(false);
 
