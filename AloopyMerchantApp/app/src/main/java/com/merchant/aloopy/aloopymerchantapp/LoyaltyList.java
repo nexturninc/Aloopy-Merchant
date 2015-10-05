@@ -89,7 +89,13 @@ public class LoyaltyList extends Fragment {
         btnRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GetLoyaltyCards(true);
+                if(!Common.GetInternetConnectivity((ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE))) {
+                    showProgress(false);
+                    Toast.makeText(getActivity().getBaseContext(), getString(R.string.message_Internet_Required), Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    GetLoyaltyCards(true);
+                }
             }
         });
 
@@ -97,9 +103,15 @@ public class LoyaltyList extends Fragment {
         btnScanCustomerLoyalty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity().getBaseContext(), LoyaltyCustomerDetails.class);
-                //newIntent.putExtra(getString(R.string.EXTRA_LoyaltyDetail_Id), contents);
-                startActivity(intent);
+
+                if(!Common.GetInternetConnectivity((ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE))) {
+                    showProgress(false);
+                    Toast.makeText(getActivity().getBaseContext(), getString(R.string.message_Internet_Required), Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Intent intent = new Intent(getActivity().getBaseContext(), LoyaltyCustomerDetails.class);
+                    startActivity(intent);
+                }
             }
         });
 

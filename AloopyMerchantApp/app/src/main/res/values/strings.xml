@@ -39,6 +39,11 @@
     <string name="btnSaveCustomerLoyalty">Give Customer Loyalty Card</string>
     <string name="lblLoyaltyProgramDetails">Loyalty Program Details</string>
     <string name="lblCustomerLoyaltyCard">Customer Loyalty Card</string>
+    <string name="lblAwardLoyaltyPoints">Award Loyalty Points</string>
+    <string name="lblPointAmount">Points:</string>
+    <string name="lblTranReferenceNo">Transaction Reference No:</string>
+    <string name="txtTranReferenceNo_Required">Transaction Reference No. is required!</string>
+    <string name="txtPointAmount_Required">Point Amount is required!</string>
 
 
 </resources>

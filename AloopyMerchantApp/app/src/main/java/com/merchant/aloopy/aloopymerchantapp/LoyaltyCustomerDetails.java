@@ -11,7 +11,9 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -19,6 +21,7 @@ import com.google.zxing.integration.android.IntentResult;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.UUID;
 
@@ -27,8 +30,6 @@ import java.util.UUID;
  */
 public class LoyaltyCustomerDetails  extends ActionBarActivity {
 
-    private GetLoyaltyRewardsTask mGetRewardTask = null;
-    ProgressBar mProgressBar;
     private IntentIntegrator integrator = null;
 
     View dvLoyaltyListBody;
@@ -37,6 +38,7 @@ public class LoyaltyCustomerDetails  extends ActionBarActivity {
     private String CustomerLoyaltyID;
     private String responseMessage;
 
+    private TextView lblScannedId;
 
 
     @Override
@@ -53,9 +55,28 @@ public class LoyaltyCustomerDetails  extends ActionBarActivity {
         CustomerLoyaltyID = intent.getStringExtra(getString(R.string.EXTRA_LoyaltyDetail_Id));
 
         //CONTROLS
+        lblScannedId = (TextView)findViewById(R.id.lblScannedID);
         dvLoyaltyListBody = findViewById(R.id.dvLoyaltyListBody);
-        mProgressBar = (ProgressBar)findViewById(R.id.login_progress);
+        Button btnAwardPoints = (Button)findViewById(R.id.btnAwardPoints);
+        btnAwardPoints.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), LoyaltyAwardPoints.class);
+                intent.putExtra(getString(R.string.EXTRA_LoyaltyDetail_Id), CustomerLoyaltyID);
+                startActivity(intent);
+            }
+        });
+        Button btnCollectRewards = (Button)findViewById(R.id.btnCollectRewards);
+        btnCollectRewards.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), LoyaltyCustomerDetails.class);
+                intent.putExtra(getString(R.string.EXTRA_LoyaltyDetail_Id), CustomerLoyaltyID);
+                startActivity(intent);
+            }
+        });
 
+        //RUN SCANNER
         if(CustomerLoyaltyID == null || CustomerLoyaltyID.isEmpty()) {
             //INITIALIZE SCANNER APP
             integrator = new IntentIntegrator(LoyaltyCustomerDetails.this);
@@ -69,96 +90,6 @@ public class LoyaltyCustomerDetails  extends ActionBarActivity {
 
     }
 
-    public class GetLoyaltyRewardsTask extends AsyncTask<Void, Void, Boolean> {
-
-        private final String mUserId;
-        private final String mCustomerLoyaltyId;
-
-        GetLoyaltyRewardsTask(String userId, String customerLoyaltyId) {
-
-            mUserId = userId;
-            mCustomerLoyaltyId = customerLoyaltyId;
-
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-
-            Boolean loginSuccess = false;
-            String userId = "";
-            String userDisplay = "";
-            JSONObject jsonResponse = null;
-
-            try {
-/*
-                JSONObject jsonParam = new JSONObject();
-                jsonParam.put("userId", mUserId);
-                jsonParam.put("customerId", mCustomerId);
-                jsonParam.put("loyaltyCardID", mLoyaltyId);
-
-                Common comm = new Common();
-                comm.setAPIURL(getString(R.string.AloopyAPIURL));
-                jsonResponse = comm.PostAPI(jsonParam, "/aloopy/customerloyalty");
-
-
-                if (jsonResponse != null) {
-
-                    String strSuccess = jsonResponse.getString("success");
-                    responseMessage = jsonResponse.getString("responseMessage");
-
-                    if (strSuccess == "true") {
-
-                        JSONArray loyaltyArray = jsonResponse.getJSONArray("loyaltyCards");
-                        loginSuccess = true;
-
-                        if(loyaltyArray != null) {
-
-                        }
-
-
-                        loginSuccess = true;
-                    }
-                }
-*/
-            } catch (Exception ex) {
-
-                String abc = ex.getMessage();
-
-            }
-
-
-            return loginSuccess;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mGetRewardTask = null;
-            showProgress(false);
-
-            if (success) {
-
-                if(responseMessage != null && !responseMessage.isEmpty())
-                    Toast.makeText(getBaseContext(), responseMessage, Toast.LENGTH_SHORT).show();
-
-                //lblStatus.setText("Process has completed successfully!");
-
-            } else {
-
-                if(responseMessage != null && !responseMessage.isEmpty())
-                    Toast.makeText(getBaseContext(), responseMessage, Toast.LENGTH_SHORT).show();
-
-                //lblStatus.setText("Creation of Customer Loyalty Card has failed! \r\n\r\n" + responseMessage);
-
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mGetRewardTask = null;
-            showProgress(false);
-        }
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
@@ -170,55 +101,23 @@ public class LoyaltyCustomerDetails  extends ActionBarActivity {
                 try {
                     cStampId = UUID.fromString(contents);
 
+                    CustomerLoyaltyID = contents;
+                    lblScannedId.setText(contents);
 
-                    /*lblScannedId.setText(contents);
-
+                    /*
                     lblGiveCustomerLoyaltyInstructions.setVisibility(View.GONE);
                     btnGiveCustomerLoyalty.setVisibility(View.GONE);
 
                     btnSaveCustomerLoyalty.setVisibility(View.VISIBLE);*/
                 }
                 catch(Exception ex){
-                    //lblScannedId.setText("Invalid QR Code scanned!");
+                    lblScannedId.setText("Invalid QR Code scanned!");
                 }
             } else {
-                //lblScannedId.setText("---");
+                lblScannedId.setText("---");
             }
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    public void showProgress(final boolean show) {
-        /*
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            mProgressBar.setVisibility(show ? View.GONE : View.VISIBLE);
-            btnSaveCustomerLoyalty.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    btnSaveCustomerLoyalty.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressBar.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
-            btnSaveCustomerLoyalty.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
-        */
-    }
 }
