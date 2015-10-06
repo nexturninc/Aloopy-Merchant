@@ -331,7 +331,7 @@ public class LoyaltyList extends Fragment {
             } else {
                 AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity().getBaseContext());
                 dialog.setTitle("Message Alert");
-                dialog.setMessage("Failed to retrieve Loyalty Car List!");
+                dialog.setMessage("Failed to retrieve Loyalty Card List!");
                 dialog.show();
                 //mPasswordView.setError(getString(R.string.error_incorrect_password));
                 //mPasswordView.requestFocus();

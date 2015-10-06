@@ -3,8 +3,10 @@ package com.merchant.aloopy.aloopymerchantapp;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -61,18 +63,28 @@ public class LoyaltyCustomerDetails  extends ActionBarActivity {
         btnAwardPoints.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), LoyaltyAwardPoints.class);
-                intent.putExtra(getString(R.string.EXTRA_LoyaltyDetail_Id), CustomerLoyaltyID);
-                startActivity(intent);
+                if(!Common.GetInternetConnectivity((ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE))) {
+                    Toast.makeText(getBaseContext(), getString(R.string.message_Internet_Required), Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Intent intent = new Intent(getBaseContext(), LoyaltyAwardPoints.class);
+                    intent.putExtra(getString(R.string.EXTRA_LoyaltyDetail_Id), CustomerLoyaltyID);
+                    startActivity(intent);
+                }
             }
         });
         Button btnCollectRewards = (Button)findViewById(R.id.btnCollectRewards);
         btnCollectRewards.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), LoyaltyCustomerDetails.class);
-                intent.putExtra(getString(R.string.EXTRA_LoyaltyDetail_Id), CustomerLoyaltyID);
-                startActivity(intent);
+                if(!Common.GetInternetConnectivity((ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE))) {
+                    Toast.makeText(getBaseContext(), getString(R.string.message_Internet_Required), Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Intent intent = new Intent(getBaseContext(), LoyaltyRewards.class);
+                    intent.putExtra(getString(R.string.EXTRA_LoyaltyDetail_Id), CustomerLoyaltyID);
+                    startActivity(intent);
+                }
             }
         });
 

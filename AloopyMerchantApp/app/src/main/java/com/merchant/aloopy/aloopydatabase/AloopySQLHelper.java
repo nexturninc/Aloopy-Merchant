@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class AloopySQLHelper extends SQLiteOpenHelper {
     // If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 5;
+    public static final int DATABASE_VERSION = 6;
     public static final String DATABASE_NAME = "AloopyMOfflineData.db";
 
     public static AloopySQLHelper sqlHelperInstance;
@@ -35,6 +35,7 @@ public class AloopySQLHelper extends SQLiteOpenHelper {
         db.execSQL(UserInfoContract.SQL_CREATE_TABLE);
         db.execSQL(MerchantStampInfoContract.SQL_CREATE_TABLE);
         db.execSQL(MerchantLoyaltyContract.SQL_CREATE_TABLE);
+        db.execSQL(LoyaltyRewardsContract.SQL_CREATE_TABLE);
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -44,6 +45,7 @@ public class AloopySQLHelper extends SQLiteOpenHelper {
         db.execSQL(UserInfoContract.SQL_DELETE_TABLE);
         db.execSQL(MerchantStampInfoContract.SQL_DELETE_TABLE);
         db.execSQL(MerchantLoyaltyContract.SQL_DELETE_TABLE);
+        db.execSQL(LoyaltyRewardsContract.SQL_DELETE_TABLE);
         onCreate(db);
     }
 
