@@ -44,6 +44,7 @@
     <string name="lblTranReferenceNo">Transaction Reference No:</string>
     <string name="txtTranReferenceNo_Required">Transaction Reference No. is required!</string>
     <string name="txtPointAmount_Required">Point Amount is required!</string>
+    <string name="lblProcessStatus">Process Status:</string>
 
 
 </resources>

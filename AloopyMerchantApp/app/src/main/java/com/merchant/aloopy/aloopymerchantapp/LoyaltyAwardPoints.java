@@ -15,8 +15,10 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -75,15 +77,15 @@ public class LoyaltyAwardPoints extends ActionBarActivity
         btnAwardPoints.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!Common.GetInternetConnectivity((ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE))) {
+                if (!Common.GetInternetConnectivity((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE))) {
                     showProgress(false);
                     Toast.makeText(getBaseContext(), getString(R.string.message_Internet_Required), Toast.LENGTH_SHORT).show();
-                }
-                else {
+                } else {
                     AwardCustomerPoints();
                 }
             }
         });
+
     }
 
     public class SaveLoyaltyPointsTask extends AsyncTask<Void, Void, Boolean> {
@@ -118,7 +120,7 @@ public class LoyaltyAwardPoints extends ActionBarActivity
                 jsonParam.put("CustomerLoyaltyCardID", mCustomerLoyaltyId);
                 jsonParam.put("ReferenceNo", mRefNo);
                 jsonParam.put("TransactionAmount", mRefAmount);
-                jsonParam.put("Amount", mRefAmount);
+                jsonParam.put("Amount", mPoints);
 
                 Common comm = new Common();
                 comm.setAPIURL(getString(R.string.AloopyAPIURL));

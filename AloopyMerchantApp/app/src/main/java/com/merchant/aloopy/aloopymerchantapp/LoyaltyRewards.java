@@ -9,14 +9,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.merchant.aloopy.aloopydatabase.AloopySQLHelper;
 import com.merchant.aloopy.aloopydatabase.LoyaltyRewardsContract;
@@ -24,7 +28,10 @@ import com.merchant.aloopy.aloopydatabase.LoyaltyRewardsContract;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by imbisibol on 10/6/2015.
@@ -32,6 +39,7 @@ import java.util.ArrayList;
 public class LoyaltyRewards  extends ActionBarActivity {
 
     private GetRewardsTask mGetRewardsTask;
+    private SaveLoyaltyPointsTask mSavePointsTask;
     private LoyaltyRewardsAdapter rewardsAdapter;
 
     private ArrayList<LoyaltyRewardsContract> rewardsData = new ArrayList<>();
@@ -43,6 +51,7 @@ public class LoyaltyRewards  extends ActionBarActivity {
     private ProgressBar login_progress;
     private View dvRewardsListBody;
     private GridView gvRewardsList;
+    private TextView lblProcessStatus;
 
 
     @Override
@@ -62,9 +71,24 @@ public class LoyaltyRewards  extends ActionBarActivity {
         CustomerLoyaltyID = intent.getStringExtra(getString(R.string.EXTRA_LoyaltyDetail_Id));
 
         //CONTROLS
+        lblProcessStatus = (TextView)findViewById(R.id.lblProcessStatus);
         login_progress = (ProgressBar)findViewById(R.id.login_progress);
         dvRewardsListBody = findViewById(R.id.dvRewardsListBody);
         gvRewardsList = (GridView)findViewById(R.id.gvRewardsList);
+        gvRewardsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+
+                if(!Common.GetInternetConnectivity((ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE))) {
+                    showProgress(false);
+                    Toast.makeText(getBaseContext(), getString(R.string.message_Internet_Required), Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    LoyaltyRewardsContract item = rewardsData.get(position);
+                    SaveLoyaltyPoint(item.RewardID, -item.PointCost);
+                }
+            }
+        });
 
         GetLoyaltyCards();
     }
@@ -199,6 +223,91 @@ public class LoyaltyRewards  extends ActionBarActivity {
             showProgress(false);
         }
     }
+    public class SaveLoyaltyPointsTask extends AsyncTask<Void, Void, Boolean> {
+
+        private final String mUserId;
+        private final String mCustomerLoyaltyId;
+        private final int mPoints;
+        private final String mRewardId;
+
+        SaveLoyaltyPointsTask(String userId, String customerLoyaltyId, int Points, String rewardId) {
+
+            mUserId = userId;
+            mCustomerLoyaltyId = customerLoyaltyId;
+            mPoints = Points;
+            mRewardId = rewardId;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+
+            Boolean loginSuccess = false;
+            String userId = "";
+            String userDisplay = "";
+            JSONObject jsonResponse = null;
+
+            try {
+
+                JSONObject jsonParam = new JSONObject();
+                jsonParam.put("CreatedBy", mUserId);
+                jsonParam.put("CustomerLoyaltyCardID", mCustomerLoyaltyId);
+                jsonParam.put("ReferenceNo", mRewardId);
+                jsonParam.put("Amount", mPoints);
+                jsonParam.put("LoyaltyCardRewardId", mRewardId);
+
+                Common comm = new Common();
+                comm.setAPIURL(getString(R.string.AloopyAPIURL));
+                jsonResponse = comm.PostAPI(jsonParam, "/aloopy/customerloyaltytransaction");
+
+
+                if (jsonResponse != null) {
+
+                    String strSuccess = jsonResponse.getString("success");
+                    responseMessage = jsonResponse.getString("responseMessage");
+
+                    if (strSuccess == "true") {
+                        loginSuccess = true;
+                    }
+                }
+
+            } catch (Exception ex) {
+
+                String abc = ex.getMessage();
+
+            }
+
+
+            return loginSuccess;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mSavePointsTask = null;
+            showProgress(false);
+
+            if (success) {
+
+                if(responseMessage != null && !responseMessage.isEmpty())
+                    Toast.makeText(getBaseContext(), responseMessage, Toast.LENGTH_SHORT).show();
+
+                lblProcessStatus.setText("Loyalty Reward has been claimed!");
+
+            } else {
+
+                if(responseMessage != null && !responseMessage.isEmpty())
+                    Toast.makeText(getBaseContext(), responseMessage, Toast.LENGTH_SHORT).show();
+
+                lblProcessStatus.setText("Claiming of Loyalty Reward has failed! \r\n\r\n" + responseMessage);
+
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            mSavePointsTask = null;
+            showProgress(false);
+        }
+    }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     public void showProgress(final boolean show) {
@@ -246,6 +355,24 @@ public class LoyaltyRewards  extends ActionBarActivity {
 
         mGetRewardsTask = new GetRewardsTask(CustomerLoyaltyID, MerchantID, this);
         mGetRewardsTask.execute((Void) null);
+
+    }
+    public void SaveLoyaltyPoint(String rewardId, Integer points) {
+
+        if (mSavePointsTask != null) {
+            return;
+        }
+
+        showProgress(true);
+
+        Calendar c = Calendar.getInstance();
+        System.out.println("Current time =&gt; "+c.getTime());
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String formattedDate = df.format(c.getTime());
+
+        mSavePointsTask = new SaveLoyaltyPointsTask(UserID, CustomerLoyaltyID, points, rewardId);
+        mSavePointsTask.execute((Void) null);
 
     }
 
